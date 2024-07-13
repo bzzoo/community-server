@@ -1,5 +1,6 @@
 package com.app.community.config;
 
+import com.app.community.auth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,6 +21,11 @@ import java.util.Collections;
 @Configuration
 public class SecurityConfig {
 
+    private final JWTUtil jwtUtil;
+    private final OauthUserService oauthUserService;
+    private final Oauth2LoginSuccessHandler successHandler;
+    private final Oauth2LoginFailureHandler failureHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -26,12 +33,18 @@ public class SecurityConfig {
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(oauthUserService))
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login/oauth2/**", "/login").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .build();
+                .addFilterBefore(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
+
         return http.build();
     }
 
