@@ -1,4 +1,4 @@
-package com.app.community.domain.aritcle;
+package com.app.community.domain.comment;
 
 import lombok.Builder;
 import lombok.Getter;
