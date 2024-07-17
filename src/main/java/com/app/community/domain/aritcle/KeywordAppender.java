@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class KeywordGenerator {
+public class KeywordAppender {
 
     private final KeywordRepository keywordRepository;
 
@@ -26,6 +26,8 @@ public class KeywordGenerator {
                 .map(Keyword::create)
                 .collect(Collectors.toList());
 
-        return keywordRepository.saveAll(keywordsToSave);
+        List<Keyword> savedKeywords = keywordRepository.saveAll(keywordsToSave);
+        existingKeywordList.addAll(savedKeywords);
+        return existingKeywordList;
     }
 }

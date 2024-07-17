@@ -10,20 +10,17 @@ import java.util.List;
 @Component
 public class ArticleAppender {
 
-    private final KeywordGenerator keywordGenerator;
     private final ArticleRepository articleRepository;
 
-    public Article append(
+    public void append(
             @NotNull Long memberId,
             @NotNull String title,
             @NotNull String content,
             Article.@NotNull ArticleType articleType,
-            List<String> keywordNameList
+            List<Keyword> keywordList
     ) {
-        Article article = Article.create(memberId, title, content, articleType);
-        List<Keyword> keywordList = keywordGenerator.saveIfNotExists(keywordNameList);
-        article.addNewKeywordList(keywordList);
-        return articleRepository.save(article);
+        Article article = Article.create(memberId, title, content, articleType, keywordList);
+        articleRepository.save(article);
     }
 
     public void update(
@@ -31,10 +28,11 @@ public class ArticleAppender {
             Article article,
             String title,
             String content,
-            List<String> newKeywordNameList) {
+            List<Keyword> newKeywordList
+    ) {
         article.validateOwner(memberId);
-        article.updateContent(title, content);
-        articleRepository.save(article);
+        article.updateContent(title, content, newKeywordList);
+        articleRepository.update(article);
     }
 
     public void delete(

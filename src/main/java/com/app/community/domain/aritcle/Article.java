@@ -19,7 +19,7 @@ public class Article {
     private @NotNull String content;
     private @NotNull ArticleStatus articleStatus;
     private @NotNull ArticleType articleType;
-    private List<Keyword> keywordList = new ArrayList<>();
+    private List<Keyword> keywordList;
 
     public enum ArticleStatus {
         TEMPORARY, STEADY, DELETED;
@@ -36,7 +36,8 @@ public class Article {
             @NotNull String title,
             @NotNull String content,
             @NotNull ArticleStatus articleStatus,
-            @NotNull ArticleType articleType
+            @NotNull ArticleType articleType,
+            List<Keyword> keywordList
     ) {
         this.id = id;
         this.writerId = writerId;
@@ -44,13 +45,15 @@ public class Article {
         this.content = content;
         this.articleStatus = articleStatus;
         this.articleType = articleType;
+        this.keywordList = keywordList;
     }
 
     public static Article create(
             @NotNull Long memberId,
             @NotNull String title,
             @NotNull String content,
-            @NotNull ArticleType articleType
+            @NotNull ArticleType articleType,
+            List<Keyword> keywordList
     ) {
         return Article.builder()
                 .writerId(memberId)
@@ -58,12 +61,14 @@ public class Article {
                 .content(content)
                 .articleType(articleType)
                 .articleStatus(ArticleStatus.STEADY)
+                .keywordList(keywordList)
                 .build();
     }
 
-    public void updateContent(String title, String content) {
+    public void updateContent(String title, String content, List<Keyword> newKeywordList) {
         this.title = title;
         this.content = content;
+        this.keywordList = newKeywordList;
     }
 
     public void validateOwner(Long memberId) {
@@ -72,9 +77,5 @@ public class Article {
 
     public void delete() {
         this.articleStatus = ArticleStatus.DELETED;
-    }
-
-    public void addNewKeywordList(List<Keyword> newKeywordList) {
-        this.keywordList = new ArrayList<>(newKeywordList);
     }
 }

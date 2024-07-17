@@ -13,6 +13,7 @@ public class ArticleService {
 
     private final ArticleReader articleReader;
     private final ArticleAppender articleAppender;
+    private final KeywordAppender keywordAppender;
 
     public void create(
             @NotNull Long memberId,
@@ -21,7 +22,8 @@ public class ArticleService {
             Article.@NotNull ArticleType articleType,
             List<String> keywordNameList
     ) {
-        articleAppender.append(memberId, title, content, articleType, keywordNameList);
+        List<Keyword> keywordList = keywordAppender.saveIfNotExists(keywordNameList);
+        articleAppender.append(memberId, title, content, articleType, keywordList);
     }
 
     @Transactional
@@ -34,7 +36,8 @@ public class ArticleService {
     ) {
         //TODO 수정 가능 유효성 추가
         var article = articleReader.getById(articleId);
-        articleAppender.update(memberId, article, title, content, newKeywordNameList);
+        List<Keyword> keywordList = keywordAppender.saveIfNotExists(newKeywordNameList);
+        articleAppender.update(memberId, article, title, content, keywordList);
     }
 
     @Transactional
