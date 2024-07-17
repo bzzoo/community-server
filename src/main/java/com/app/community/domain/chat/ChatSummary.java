@@ -16,6 +16,7 @@ public class ChatSummary {
     }
 
     public record ChatMessageInfo(
+            Long chatId,
             Long messageId,
             Participant sender,
             String content,
