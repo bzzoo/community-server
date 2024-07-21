@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.app.community.storage.chat.QChatEntity.chatEntity;
 import static com.app.community.storage.chat.QMessageEntity.messageEntity;
 
 @RequiredArgsConstructor
@@ -26,28 +25,36 @@ public class ChatQueryRepository implements ChatRepositoryForQuery {
     public List<ChatSummary.ChatInfo> findChatListByMemberId(Long memberId) {
         QMemberEntity requester = new QMemberEntity("requester");
         QMemberEntity respondent = new QMemberEntity("respondent");
-
         QMessageEntity latestMessage = new QMessageEntity("latestMessage");
+        QMessageEntity messageEntity = new QMessageEntity("messageEntity");
+        QChatEntity chatEntity = new QChatEntity("chatEntity");
+
         var latestMessageIdSubQuery = JPAExpressions
                 .select(latestMessage.id.max())
                 .from(latestMessage)
                 .where(latestMessage.chatId.eq(chatEntity.id));
 
         return queryFactory
-                .select(Projections.constructor(ChatSummary.ChatInfo.class,
-                        chatEntity.id,
-                        Projections.constructor(ChatSummary.Participant.class, requester.id, requester.nickname),
-                        Projections.constructor(ChatSummary.Participant.class, respondent.id, respondent.nickname),
-                        messageEntity.content,
-                        messageEntity.createdAt,
-                        chatEntity.createdAt,
-                        chatEntity.endDate))
+                .select(Projections.constructor(
+                                ChatSummary.ChatInfo.class,
+                                chatEntity.id,
+                                Projections.constructor(
+                                        ChatSummary.Participant.class,
+                                        requester.id, requester.nickname),
+                                Projections.constructor(
+                                        ChatSummary.Participant.class,
+                                        respondent.id, respondent.nickname),
+                                messageEntity.content,
+                                messageEntity.createdAt,
+                                chatEntity.createdAt,
+                                chatEntity.endDate
+                        )
+                )
                 .from(chatEntity)
                 .leftJoin(messageEntity).on(messageEntity.id.eq(latestMessageIdSubQuery))
                 .leftJoin(requester).on(chatEntity.requesterId.eq(requester.id))
                 .leftJoin(respondent).on(chatEntity.respondentId.eq(respondent.id))
                 .where(chatEntity.requesterId.eq(memberId).or(chatEntity.respondentId.eq(memberId)))
-                .groupBy(chatEntity.id)
                 .fetch();
     }
 
@@ -62,13 +69,14 @@ public class ChatQueryRepository implements ChatRepositoryForQuery {
                         messageEntity.content,
                         messageEntity.createdAt,
                         messageEntity.messageType,
-                        messageEntity.isRead)
+                        messageEntity.isRead
+                )
                 .from(messageEntity)
                 .leftJoin(sender).on(sender.id.eq(messageEntity.senderId))
                 .where(messageEntity.chatId.eq(chatId)
-                        .and(cursor != null ? messageEntity.id.gt(cursor) : null))
-                .orderBy(messageEntity.createdAt.desc())
-                .limit(20)
+                        .and(cursor != -1 ? messageEntity.id.lt(cursor) : null))
+                .orderBy(messageEntity.id.desc())
+                .limit(21)
                 .fetch();
 
         return queryResult.stream().map(tuple -> new ChatSummary.ChatMessageInfo(

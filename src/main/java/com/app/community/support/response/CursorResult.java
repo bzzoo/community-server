@@ -13,7 +13,7 @@ public record CursorResult<T>(
         Long nextCursor = null;
         if (!isLast) {
             T lastItem = items.remove(items.size() - 1);
-            nextCursor = cursorExtractor.apply(lastItem);
+            nextCursor = cursorExtractor.apply(lastItem) + 1;
         }
         return new CursorResult<>(items.size(), nextCursor, isLast, items);
     }
