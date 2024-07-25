@@ -1,0 +1,12 @@
+package com.app.community.api.comment;
+
+import com.app.community.domain.comment.CommentTarget;
+
+public class CommentRequest {
+
+    public record CreateRequest(
+            String targetId,
+            String content,
+            CommentTarget.TargetType targetType
+    ){}
+}

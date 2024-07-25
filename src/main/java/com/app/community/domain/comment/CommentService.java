@@ -19,7 +19,6 @@ public class CommentService {
             @NotNull CommentTarget.TargetType targetType,
             @NotNull String content
     ) {
-
         commentAppender.append(memberId, targetId, targetType, content);
     }
 }
