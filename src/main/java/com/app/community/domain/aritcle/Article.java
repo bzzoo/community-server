@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -27,6 +27,13 @@ public class Article {
 
     public enum ArticleType {
         SHARE, QUESTION;
+
+        public static ArticleType fromString(String type) {
+            return Arrays.stream(ArticleType.values())
+                    .filter(articleType -> articleType.name().equalsIgnoreCase(type))
+                    .findFirst()
+                    .orElse(null);
+        }
     }
 
     @Builder

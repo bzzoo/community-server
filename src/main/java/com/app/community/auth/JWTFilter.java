@@ -28,7 +28,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String jwt = getJwtFromRequest(request);
         if(jwt != null && jwt.startsWith("-")){
-            String memberId = jwt.substring(1);
+            Long memberId = Long.valueOf(jwt.substring(1));
             Authentication authentication = new UsernamePasswordAuthenticationToken(memberId, null, null);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

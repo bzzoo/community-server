@@ -15,6 +15,7 @@ public class ArticleService {
     private final ArticleAppender articleAppender;
     private final KeywordAppender keywordAppender;
 
+    @Transactional
     public void create(
             @NotNull Long memberId,
             @NotNull String title,
