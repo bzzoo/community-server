@@ -34,6 +34,11 @@ public class Comment {
             CommentTarget commentTarget,
             String content
     ) {
-        return null;
+        return Comment.builder()
+                .writerId(memberId)
+                .commentTarget(commentTarget)
+                .content(content)
+                .isDelete(false)
+                .build();
     }
 }

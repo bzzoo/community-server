@@ -17,5 +17,7 @@ public class CommentAppender {
             @NotNull String content
     ) {
 
+        Comment comment = Comment.create(memberId, new CommentTarget(targetId, targetType), content);
+        commentRepository.save(comment);
     }
 }
