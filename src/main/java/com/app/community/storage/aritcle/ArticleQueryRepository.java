@@ -4,6 +4,7 @@ import com.app.community.domain.aritcle.Article;
 import com.app.community.domain.aritcle.ArticleRepositoryForQuery;
 import com.app.community.domain.aritcle.ArticleSummary;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -142,5 +143,25 @@ public class ArticleQueryRepository implements ArticleRepositoryForQuery {
                 keywordList
         );
 
+    }
+
+    @Override
+    public List<ArticleSummary.ArticleActivity> findArticleListByMemberId(int size, Long cursor, Article.ArticleType type, Long memberId) {
+        return queryFactory.select(
+                        Projections.constructor(ArticleSummary.ArticleActivity.class,
+                        articleEntity.id,
+                        articleEntity.title,
+                        articleEntity.content,
+                        articleEntity.articleType,
+                        articleEntity.createdAt,
+                        articleEntity.updatedAt
+                ))
+                .from(articleEntity)
+                .where(articleEntity.articleStatus.eq(Article.ArticleStatus.STEADY)
+                        .and(cursor == -1 ? null : articleEntity.id.lt(cursor))
+                        .and(type == null ? null : articleEntity.articleType.eq(type)))
+                .orderBy(articleEntity.id.desc())
+                .limit(size + 1)
+                .fetch();
     }
 }
