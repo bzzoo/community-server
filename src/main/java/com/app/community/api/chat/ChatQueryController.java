@@ -19,7 +19,8 @@ public class ChatQueryController {
 
     @GetMapping("")
     public ResponseEntity<List<ChatSummary.ChatInfo>> getMyChatList(
-            @AuthenticationPrincipal Long memberId
+            @AuthenticationPrincipal Long memberId,
+            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor
     ) {
         List<ChatSummary.ChatInfo> chatList = chatReadService.getChatListByMemberId(memberId);
         return ResponseEntity.ok().body(chatList);
@@ -27,10 +28,10 @@ public class ChatQueryController {
 
     @GetMapping("/{chatId}/messages")
     public ResponseEntity<CursorResult<ChatSummary.ChatMessageInfo>> getChatMessageList(
-            @AuthenticationPrincipal  Long memberId,
+            @AuthenticationPrincipal Long memberId,
             @PathVariable(name = "chatId") Long chatId,
             @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor
-    ){
+    ) {
         CursorResult<ChatSummary.ChatMessageInfo> chatMessageList
                 = chatReadService.getChatMessageList(memberId, chatId, cursor);
         return ResponseEntity.ok().body(chatMessageList);
