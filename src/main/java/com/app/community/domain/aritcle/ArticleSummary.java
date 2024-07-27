@@ -43,4 +43,14 @@ public class ArticleSummary {
             String keywordName
     ) {
     }
+
+    public record ArticleActivity(
+            Long articleId,
+            String title,
+            String content,
+            Article.ArticleType articleType,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ){
+    }
 }

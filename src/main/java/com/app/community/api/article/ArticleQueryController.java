@@ -23,16 +23,28 @@ public class ArticleQueryController {
             @RequestParam(name = "t", required = false) String type
     ) {
         CursorResult<ArticleSummary.ArticleInfo> latestArticleList = articleReadService
-                .getLatestArticleList(cursor, size, Article.ArticleType.fromString(type));
+                .getLatestArticleList(size, cursor, Article.ArticleType.fromString(type));
         return ResponseEntity.ok().body(latestArticleList);
     }
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<ArticleSummary.ArticleDetails> getTownDetails(
+    public ResponseEntity<ArticleSummary.ArticleDetails> getArticleDetails(
             @PathVariable(value = "articleId") Long articleId,
             @AuthenticationPrincipal Long loginMemberId
     ) {
         ArticleSummary.ArticleDetails articleDetails = articleReadService.getArticleDetails(articleId, loginMemberId);
         return ResponseEntity.ok().body(articleDetails);
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<CursorResult<ArticleSummary.ArticleActivity>> getArticleListByMember(
+            @PathVariable(value = "memberId") Long memberId,
+            @RequestParam(name = "s", required = false, defaultValue = "20") int size,
+            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor,
+            @RequestParam(name = "t", required = false, defaultValue = "SHARE") String type
+    ) {
+        CursorResult<ArticleSummary.ArticleActivity> articleList = articleReadService
+                .getArticleListByMemberId(size, cursor, Article.ArticleType.fromString(type), memberId);
+        return ResponseEntity.ok().body(articleList);
     }
 }
