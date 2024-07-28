@@ -21,12 +21,14 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public void save(Article article) {
+    public Article save(Article article) {
         List<ArticleKeywordEntity> articleKeywordEntityList = article.getKeywordList().stream()
                 .map(keyword -> ArticleKeywordEntity.fromDomain(keyword, article))
                 .toList();
-        articleJpaRepository.save(ArticleEntity.fromDomain(article)).toDomain();
+
         articleKeywordJpaRepository.saveAll(articleKeywordEntityList);
+        return articleJpaRepository.save(ArticleEntity.fromDomain(article)).toDomain();
+
     }
 
     @Override
@@ -37,5 +39,10 @@ public class ArticleRepositoryImpl implements ArticleRepository {
                 .toList();
         articleJpaRepository.save(ArticleEntity.fromDomain(article)).toDomain();
         articleKeywordJpaRepository.saveAll(articleKeywordEntityList);
+    }
+
+    @Override
+    public void delete(Article article) {
+        articleJpaRepository.save(ArticleEntity.fromDomain(article)).toDomain();
     }
 }

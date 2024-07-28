@@ -1,5 +1,6 @@
 package com.app.community.domain.aritcle;
 
+import com.app.community.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ public class ArticleAppender {
 
     private final ArticleRepository articleRepository;
 
-    public void append(
+    public Article append(
             @NotNull Long memberId,
             @NotNull String title,
             @NotNull String content,
@@ -20,7 +21,7 @@ public class ArticleAppender {
             List<Keyword> keywordList
     ) {
         Article article = Article.create(memberId, title, content, articleType, keywordList);
-        articleRepository.save(article);
+        return articleRepository.save(article);
     }
 
     public void update(
@@ -41,6 +42,6 @@ public class ArticleAppender {
     ) {
         article.validateOwner(memberId);
         article.delete();
-        articleRepository.save(article);
+        articleRepository.delete(article);
     }
 }
