@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class MemberServiceForQuery {
+public class MemberReadService {
 
     private final MemberRepositoryForQuery memberRepositoryForQuery;
 
