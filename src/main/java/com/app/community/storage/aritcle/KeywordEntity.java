@@ -1,13 +1,13 @@
 package com.app.community.storage.aritcle;
 
+import com.app.community.domain.aritcle.Keyword;
 import com.app.community.storage.AbstractEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "keywords")
 @Entity
@@ -17,13 +17,16 @@ public class KeywordEntity extends AbstractEntity {
     private Long id;
     private String keywordName;
 
-    @Builder
-    private KeywordEntity(Long id, String keywordName) {
-        this.id = id;
-        this.keywordName = keywordName;
+    public static KeywordEntity fromDomain(Keyword keyword){
+        return KeywordEntity.builder()
+                .keywordName(keyword.getKeywordName())
+                .build();
     }
 
-    public static KeywordEntity create(String keywordName){
-        return new KeywordEntity(null, keywordName);
+    public Keyword toDomain(){
+        return Keyword.builder()
+                .id(id)
+                .keywordName(keywordName)
+                .build();
     }
 }
