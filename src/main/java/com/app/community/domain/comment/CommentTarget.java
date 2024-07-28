@@ -4,9 +4,7 @@ public record CommentTarget(
         Long targetId,
         TargetType targetType
 ) {
-
     public enum TargetType {
         ARTICLE, COMMENT
     }
-
 }

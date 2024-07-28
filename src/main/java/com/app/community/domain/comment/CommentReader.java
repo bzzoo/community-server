@@ -12,4 +12,6 @@ public class CommentReader {
     public Comment getById(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow();
     }
+
+    public boolean existsByArticeId(Long articleId){return commentRepository.existsByArticleId(articleId);}
 }

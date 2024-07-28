@@ -16,6 +16,7 @@ public class ArticleService {
     private final ArticleAppender articleAppender;
     private final KeywordAppender keywordAppender;
     private final PointManager pointManager;
+    private final ArticleUpdateValidate updateValidate;
 
     @Transactional
     public void create(
@@ -38,7 +39,7 @@ public class ArticleService {
             @NotNull String content,
             List<String> newKeywordNameList
     ) {
-        //TODO 수정 가능 유효성 추가
+        updateValidate.isUpdatable(articleId);
         var article = articleReader.getById(articleId);
         List<Keyword> keywordList = keywordAppender.saveIfNotExists(newKeywordNameList);
         articleAppender.update(memberId, article, title, content, keywordList);
@@ -49,7 +50,7 @@ public class ArticleService {
             @NotNull Long memberId,
             @NotNull Long articleId
     ) {
-        //TODO 삭제 가능 유혀성 추가
+        updateValidate.isUpdatable(articleId);
         var article = articleReader.getById(articleId);
         pointManager.deleteIfShareArticle(article);
         articleAppender.delete(memberId, article);

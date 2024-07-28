@@ -36,7 +36,7 @@ public class ArticleQueryController {
         return ResponseEntity.ok().body(articleDetails);
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/profiles/{memberId}")
     public ResponseEntity<CursorResult<ArticleSummary.ArticleActivity>> getArticleListByMember(
             @PathVariable(value = "memberId") Long memberId,
             @RequestParam(name = "s", required = false, defaultValue = "20") int size,
