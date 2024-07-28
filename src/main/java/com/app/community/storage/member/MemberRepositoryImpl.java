@@ -17,7 +17,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Optional<Member> findBySocialInfo(Member.SocialInfo socialInfo) {
         return memberJPARepository.findBySocial(
                         socialInfo.socialId(),
-                        socialInfo.socialType()
+                        socialInfo.memberSocialType()
                 )
                 .map(MemberEntity::toDomain);
     }

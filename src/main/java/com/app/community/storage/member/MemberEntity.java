@@ -1,7 +1,8 @@
 package com.app.community.storage.member;
 
 import com.app.community.domain.member.Member;
-import com.app.community.domain.member.SocialType;
+import com.app.community.domain.member.MemberGrade;
+import com.app.community.domain.member.MemberSocialType;
 import com.app.community.storage.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +24,7 @@ public class MemberEntity extends AbstractEntity {
     private String profileImagePath;
     private int money;
     private String socialId;
-    private SocialType socialType;
+    private MemberSocialType memberSocialType;
     private int chatPeePoint;
     private boolean chatRefusal;
     private int pointValue;
@@ -36,7 +37,7 @@ public class MemberEntity extends AbstractEntity {
         return MemberEntity.builder()
                 .id(member.getId())
                 .socialId(member.getSocialInfo().socialId())
-                .socialType(member.getSocialInfo().socialType())
+                .memberSocialType(member.getSocialInfo().memberSocialType())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .profileImagePath(member.getEmail())
@@ -56,12 +57,12 @@ public class MemberEntity extends AbstractEntity {
                 .email(email)
                 .nickname(nickname)
                 .profileImagePath(email)
-                .socialInfo(new Member.SocialInfo(socialId, socialType))
+                .socialInfo(new Member.SocialInfo(socialId, memberSocialType))
                 .money(new Member.Money(money))
                 .settings(new Member.Settings(chatPeePoint, chatRefusal))
                 .position(position)
                 .status(status)
-                .grade(new Member.Grade(pointValue, tier))
+                .grade(new MemberGrade.Grade(pointValue, tier))
                 .build();
     }
 }

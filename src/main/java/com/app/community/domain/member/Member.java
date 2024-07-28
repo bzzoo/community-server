@@ -10,28 +10,19 @@ public class Member {
 
     private @Nullable Long id;
     private @Nullable String email;
-    private @Nullable String profileImagePath;  //TODO @Nullable 모델 분리 하기
+    private @Nullable String profileImagePath;
     private @NotNull String nickname;
     private @NotNull Money money;
     private @NotNull SocialInfo socialInfo;
     private @NotNull Settings settings;
     private @NotNull Position position;
     private @NotNull Status status;
-    private @NotNull Grade grade;
+    private @NotNull MemberGrade.Grade grade;
 
     public record SocialInfo(
             String socialId,
-            SocialType socialType
+            MemberSocialType memberSocialType
     ) {
-    }
-
-    public record Grade(
-            int value,
-            Tier grade
-    ) {
-        public static Grade init(){
-            return new Grade(1000, Tier.BRONZE);
-        }
     }
 
     public record Money(
@@ -72,7 +63,7 @@ public class Member {
             @NotNull SocialInfo socialInfo,
             @NotNull Money money,
             @NotNull Settings settings,
-            @NotNull Grade grade,
+            @NotNull MemberGrade.Grade grade,
             @NotNull Position position,
             @NotNull Status status
     ) {
@@ -103,7 +94,7 @@ public class Member {
                 .settings(Settings.init())
                 .position(Position.NONE)
                 .status(Status.SUSPENSE)
-                .grade(Grade.init())
+                .grade(MemberGrade.Grade.init())
                 .build();
     }
 
@@ -114,5 +105,9 @@ public class Member {
 
     public void updateSettings(Settings settings) {
         this.settings = settings;
+    }
+
+    public void updateGrade(MemberGrade.Grade newGrade){
+        this.grade = newGrade;
     }
 }

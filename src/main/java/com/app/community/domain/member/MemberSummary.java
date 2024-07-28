@@ -12,7 +12,7 @@ public class MemberSummary {
             Member.Settings settings,
             Member.Position position,
             Member.Status status,
-            Member.Grade grade
+            MemberGrade.Grade grade
     ) {
         public static MemberInfo of(Member member) {
             return new MemberInfo(

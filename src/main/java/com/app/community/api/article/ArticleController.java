@@ -44,4 +44,13 @@ public class ArticleController {
         );
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{articleId}")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable(name = "articleId") Long articleId
+    ) {
+        articleService.delete(memberId, articleId);
+        return ResponseEntity.ok().build();
+    }
 }

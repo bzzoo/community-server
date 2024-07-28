@@ -1,5 +1,6 @@
 package com.app.community.domain.aritcle;
 
+import com.app.community.domain.member.PointManager;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public class ArticleService {
     private final ArticleReader articleReader;
     private final ArticleAppender articleAppender;
     private final KeywordAppender keywordAppender;
+    private final PointManager pointManager;
 
     @Transactional
     public void create(
@@ -24,7 +26,8 @@ public class ArticleService {
             List<String> keywordNameList
     ) {
         List<Keyword> keywordList = keywordAppender.saveIfNotExists(keywordNameList);
-        articleAppender.append(memberId, title, content, articleType, keywordList);
+        Article article = articleAppender.append(memberId, title, content, articleType, keywordList);
+        pointManager.processShareArticle(articleType, memberId, article.getId());
     }
 
     @Transactional
@@ -48,6 +51,7 @@ public class ArticleService {
     ) {
         //TODO 삭제 가능 유혀성 추가
         var article = articleReader.getById(articleId);
+        pointManager.deleteIfShareArticle(article);
         articleAppender.delete(memberId, article);
     }
 }

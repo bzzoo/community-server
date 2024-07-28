@@ -3,7 +3,7 @@ package com.app.community.auth;
 import com.app.community.domain.member.Member;
 import com.app.community.domain.member.MemberAppender;
 import com.app.community.domain.member.MemberReader;
-import com.app.community.domain.member.SocialType;
+import com.app.community.domain.member.MemberSocialType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -24,7 +24,7 @@ public class OauthUserService extends DefaultOAuth2UserService {
         OauthResponse response = decideProvider(userRequest, oAuth2User);
         Member.SocialInfo socialInfo = new Member.SocialInfo(
                 response.getUserId(),
-                SocialType.from(response.getProviderName())
+                MemberSocialType.from(response.getProviderName())
         );
         Member member = getOrRegisterMember(socialInfo, response);
         return new OauthUser(new OauthPrincipal(member.getId()));
@@ -41,8 +41,8 @@ public class OauthUserService extends DefaultOAuth2UserService {
 
     private OauthResponse decideProvider(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        SocialType socialType = SocialType.from(registrationId);
-        return switch (socialType) {
+        MemberSocialType memberSocialType = MemberSocialType.from(registrationId);
+        return switch (memberSocialType) {
             case GOOGLE -> new OauthGoogleResponse(oAuth2User.getAttributes());
             case KAKAO -> new OauthKakaoResponse(oAuth2User.getAttributes());
             default -> null;

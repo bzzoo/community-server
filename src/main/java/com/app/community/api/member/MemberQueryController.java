@@ -1,6 +1,6 @@
 package com.app.community.api.member;
 
-import com.app.community.domain.member.MemberServiceForQuery;
+import com.app.community.domain.member.MemberReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,13 +16,13 @@ import com.app.community.domain.member.MemberSummary.*;
 @RestController
 public class MemberQueryController {
 
-    private final MemberServiceForQuery memberServiceForQuery;
+    private final MemberReadService memberReadService;
 
     @GetMapping("/me")
     public ResponseEntity<MemberInfo> me(
             @AuthenticationPrincipal Long memberId
     ) {
-        MemberInfo memberInfo = memberServiceForQuery.getMemberInfo(memberId);
+        MemberInfo memberInfo = memberReadService.getMemberInfo(memberId);
         return ResponseEntity.ok().body(memberInfo);
     }
 
@@ -30,7 +30,7 @@ public class MemberQueryController {
     public ResponseEntity<MemberInfo> getMyProfile(
             @PathVariable(name = "memberId") Long memberId
     ) {
-        MemberInfo memberInfo = memberServiceForQuery.getMemberInfo(memberId);
+        MemberInfo memberInfo = memberReadService.getMemberInfo(memberId);
         return ResponseEntity.ok().body(memberInfo);
     }
 }
