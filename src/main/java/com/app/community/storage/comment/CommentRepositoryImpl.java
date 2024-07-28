@@ -22,4 +22,9 @@ public class CommentRepositoryImpl implements CommentRepository {
     public Optional<Comment> findById(Long commentId) {
         return Optional.empty();
     }
+
+    @Override
+    public boolean existsByArticleId(Long articleId) {
+        return commentJpaRepository.existsByArticleIdAndIsDeleteFalse(articleId);
+    }
 }
