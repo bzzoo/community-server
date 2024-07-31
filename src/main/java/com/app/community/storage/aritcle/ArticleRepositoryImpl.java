@@ -32,11 +32,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
     @Override
     public void update(Article article) {
+        Article savedArticle = articleJpaRepository.save(ArticleEntity.fromDomain(article)).toDomain();
         articleKeywordJpaRepository.deleteByArticleId(article.getId());
         List<ArticleKeywordEntity> articleKeywordEntityList = article.getKeywordList().stream()
-                .map(keyword -> ArticleKeywordEntity.fromDomain(keyword, article))
+                .map(keyword -> ArticleKeywordEntity.fromDomain(keyword, savedArticle))
                 .toList();
-        articleJpaRepository.save(ArticleEntity.fromDomain(article)).toDomain();
         articleKeywordJpaRepository.saveAll(articleKeywordEntityList);
     }
 
