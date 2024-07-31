@@ -1,6 +1,6 @@
 package com.app.community.domain.aritcle;
 
-import com.app.community.domain.member.PointManager;
+import com.app.community.domain.member.MemberPointManager;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class ArticleService {
     private final ArticleReader articleReader;
     private final ArticleAppender articleAppender;
     private final KeywordAppender keywordAppender;
-    private final PointManager pointManager;
+    private final MemberPointManager pointManager;
     private final ArticleUpdateValidate updateValidate;
 
     @Transactional
@@ -52,7 +52,7 @@ public class ArticleService {
     ) {
         updateValidate.isUpdatable(articleId);
         var article = articleReader.getById(articleId);
-        pointManager.deleteIfShareArticle(article);
+        pointManager.deleteShareArticle(article);
         articleAppender.delete(memberId, article);
     }
 }
