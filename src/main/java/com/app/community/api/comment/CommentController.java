@@ -17,13 +17,32 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentQueryService commentQueryService;
 
-    @PostMapping("/{targetId}")
-    public ResponseEntity<Void> createComment(
+    @PostMapping("/{targetId}/new")
+    public ResponseEntity<Void> create(
             @AuthenticationPrincipal Long memberId,
             @PathVariable(name = "targetId") Long targetId,
             @RequestBody CommentRequest.CreateRequest request
     ) {
         commentService.create(memberId, targetId, request.targetType(), request.content());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{targetId}")
+    public ResponseEntity<Void> update(
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable(name = "targetId") Long targetId,
+            @RequestBody CommentRequest.UpdateRequest request
+    ) {
+        commentService.update(memberId, targetId, request.content());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{targetId}")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable(name = "targetId") Long targetId
+    ) {
+        commentService.delete(memberId, targetId);
         return ResponseEntity.ok().build();
     }
 

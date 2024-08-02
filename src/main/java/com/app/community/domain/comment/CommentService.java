@@ -33,12 +33,15 @@ public class CommentService {
             @NotNull String content
     ){
         Comment comment = commentReader.getById(commentId);
+        commentAppender.update(memberId, comment, content);
     }
 
     @Transactional
     public void delete(
-
+            @NotNull Long memberId,
+            @NotNull Long commentId
     ){
-
+        Comment comment = commentReader.getById(commentId);
+        commentAppender.delete(memberId, comment);
     }
 }
