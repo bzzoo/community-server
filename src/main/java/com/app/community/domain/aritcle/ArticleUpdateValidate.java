@@ -13,7 +13,7 @@ public class ArticleUpdateValidate {
     private final CommentReader commentReader;
 
     public void isUpdatable(Long articleId){
-        if(commentReader.existsByArticeId(articleId))
+        if(commentReader.existsByArticleId(articleId))
             throw new CoreApiException(ErrorType.ARTICLE_UNMODIFIABLE);
     }
 }
