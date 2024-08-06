@@ -36,15 +36,15 @@ public class ArticleQueryController {
         return ResponseEntity.ok().body(articleDetails);
     }
 
-    @GetMapping("/profiles/{memberId}")
+    @GetMapping("/profiles")
     public ResponseEntity<CursorResult<ArticleSummary.ArticleActivity>> getArticleListByMember(
-            @PathVariable(value = "memberId") Long memberId,
+            @AuthenticationPrincipal Long loginMemberId,
             @RequestParam(name = "s", required = false, defaultValue = "20") int size,
             @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor,
             @RequestParam(name = "t", required = false, defaultValue = "SHARE") String type
     ) {
         CursorResult<ArticleSummary.ArticleActivity> articleList = articleReadService
-                .getArticleListByMemberId(size, cursor, Article.ArticleType.fromString(type), memberId);
+                .getArticleListByMemberId(size, cursor, Article.ArticleType.fromString(type), loginMemberId);
         return ResponseEntity.ok().body(articleList);
     }
 }

@@ -2,7 +2,6 @@ package com.app.community.domain.comment;
 
 import com.app.community.domain.member.MemberPointManager;
 import lombok.RequiredArgsConstructor;
-
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +17,13 @@ public class CommentService {
     @Transactional
     public void create(
             @NotNull Long memberId,
+            @NotNull Long articleId,
             @NotNull Long targetId,
             @NotNull CommentTarget.TargetType targetType,
             @NotNull String content
     ) {
-        pointManager.processQuestionComment(targetType, memberId, targetId);
-        commentAppender.append(memberId, targetId, targetType, content);
+        commentAppender.append(memberId, articleId, targetId, targetType, content);
+        pointManager.addPointForCommenting(memberId, targetId, targetType);
     }
 
     @Transactional
@@ -31,7 +31,7 @@ public class CommentService {
             @NotNull Long memberId,
             @NotNull Long commentId,
             @NotNull String content
-    ){
+    ) {
         Comment comment = commentReader.getById(commentId);
         commentAppender.update(memberId, comment, content);
     }
@@ -40,7 +40,7 @@ public class CommentService {
     public void delete(
             @NotNull Long memberId,
             @NotNull Long commentId
-    ){
+    ) {
         Comment comment = commentReader.getById(commentId);
         commentAppender.delete(memberId, comment);
     }

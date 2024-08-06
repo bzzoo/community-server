@@ -12,11 +12,12 @@ public class CommentAppender {
 
     public void append(
             @NotNull Long memberId,
+            @NotNull Long articleId,
             @NotNull Long targetId,
             CommentTarget.@NotNull TargetType targetType,
             @NotNull String content
     ) {
-        Comment comment = Comment.create(memberId, new CommentTarget(targetId, targetType), content);
+        Comment comment = Comment.create(memberId, articleId, new CommentTarget(targetId, targetType), content);
         commentRepository.save(comment);
     }
 

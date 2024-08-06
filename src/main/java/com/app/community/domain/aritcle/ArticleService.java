@@ -28,7 +28,7 @@ public class ArticleService {
     ) {
         List<Keyword> keywordList = keywordAppender.saveIfNotExists(keywordNameList);
         Article article = articleAppender.append(memberId, title, content, articleType, keywordList);
-        pointManager.processShareArticle(articleType, memberId, article.getId());
+        pointManager.addPointForPosting(memberId, article.getId(), articleType);
     }
 
     @Transactional
@@ -52,7 +52,7 @@ public class ArticleService {
     ) {
         updateValidate.isUpdatable(articleId);
         var article = articleReader.getById(articleId);
-        pointManager.deleteShareArticle(article);
+        pointManager.subtractPointForDeletion(article);
         articleAppender.delete(memberId, article);
     }
 }

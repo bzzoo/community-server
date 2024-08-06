@@ -5,6 +5,6 @@ public record CommentTarget(
         TargetType targetType
 ) {
     public enum TargetType {
-        SHARE_ARTICLE, QUESTION_ARTICLE, COMMENT, REPLY
+        SHARE, QUESTION, COMMENT
     }
 }

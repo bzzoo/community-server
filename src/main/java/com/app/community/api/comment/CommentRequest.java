@@ -5,13 +5,12 @@ import com.app.community.domain.comment.CommentTarget;
 public class CommentRequest {
 
     public record CreateRequest(
-            String targetId,
+            Long targetId,
             String content,
             CommentTarget.TargetType targetType
     ){}
 
     public record UpdateRequest(
-            String targetId,
             String content,
             CommentTarget.TargetType targetType
     ){}

@@ -17,4 +17,9 @@ public class CommentQueryService {
         List<CommentSummary.CommentInfo> commentList = commentRepositoryForQuery.findCommentListByArticleId(articleId, cursor);
         return CursorResult.of(commentList, 41, CommentSummary.CommentInfo::commentId);
     }
+
+    public CursorResult<CommentSummary.ProfileComment> getAnswerByMember(Long loginMemberId, Long cursor) {
+        List<CommentSummary.ProfileComment> answerByMember = commentRepositoryForQuery.findAnswerByMember(loginMemberId, cursor);
+        return CursorResult.of(answerByMember, 20, CommentSummary.ProfileComment::commentId);
+    }
 }
