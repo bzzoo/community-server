@@ -9,4 +9,10 @@ public class CommentRequest {
             String content,
             CommentTarget.TargetType targetType
     ){}
+
+    public record UpdateRequest(
+            String targetId,
+            String content,
+            CommentTarget.TargetType targetType
+    ){}
 }

@@ -42,7 +42,7 @@ public class CommentEntity extends AbstractEntity {
 
     public static CommentEntity fromDomain(Comment comment) {
         Long articleId = (comment.getCommentTarget() != null &&
-                          comment.getCommentTarget().targetType() == CommentTarget.TargetType.ARTICLE)
+                          comment.getCommentTarget().targetType() == CommentTarget.TargetType.SHARE_ARTICLE)
                 ? comment.getCommentTarget().targetId()
                 : null;
 
@@ -63,7 +63,7 @@ public class CommentEntity extends AbstractEntity {
 
     public Comment toDomain() {
         CommentTarget commentTarget = (articleId != null)
-                ? new CommentTarget(articleId, CommentTarget.TargetType.ARTICLE)
+                ? new CommentTarget(articleId, CommentTarget.TargetType.SHARE_ARTICLE)
                 : (parentCommentId != null)
                 ? new CommentTarget(parentCommentId, CommentTarget.TargetType.COMMENT)
                 : null;

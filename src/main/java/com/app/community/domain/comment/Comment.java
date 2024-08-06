@@ -1,5 +1,7 @@
 package com.app.community.domain.comment;
 
+import com.app.community.support.error.CoreApiException;
+import com.app.community.support.error.ErrorType;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -40,5 +42,20 @@ public class Comment {
                 .content(content)
                 .isDelete(false)
                 .build();
+    }
+
+
+    public void validateOwner(Long memberId) {
+        if (!this.writerId.equals(memberId)) throw new CoreApiException(ErrorType.DEFAULT_ERROR);
+    }
+
+    public void update(Long memberId, String content) {
+        validateOwner(memberId);
+        this.content = content;
+    }
+
+    public void delete(Long memberId) {
+        validateOwner(memberId);
+        this.isDelete = true;
     }
 }

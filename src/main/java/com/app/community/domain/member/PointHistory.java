@@ -21,6 +21,7 @@ public class PointHistory {
         SHARE_ARTICLE_DELETION("공유글 삭제"),
         RECEIVED_SHARE_UPVOTE("공유글 추천 받음"),
         QUESTION_COMMENT_CREATION("질문글 답변"),
+        QUESTION_REPLY_CREATION("댓글 답변"),
         RECEIVED_QUESTION_COMMENT_UPVOTE("질문글 답변 추천받음");
         private final String description;
     }
