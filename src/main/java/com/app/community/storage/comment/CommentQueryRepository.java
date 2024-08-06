@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.app.community.storage.comment.QCommentEntity.commentEntity;
-import static com.app.community.storage.member.QMemberEntity.memberEntity;
+import static com.app.community.storage.aritcle.QArticleEntity.articleEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -135,6 +136,38 @@ public class CommentQueryRepository implements CommentRepositoryForQuery {
         }
 
         return topLevelComments;
+    }
+
+    @Override
+    public List<CommentSummary.ProfileComment> findAnswerByMember(Long memberId, Long cursor) {
+        List<Tuple> fetch = queryFactory.select(
+                commentEntity.id,
+                commentEntity.articleId,
+                articleEntity.title,
+                commentEntity.content,
+                commentEntity.isDelete,
+                commentEntity.createdAt,
+                commentEntity.updatedAt
+                )
+                .from(commentEntity)
+                .leftJoin(articleEntity).on(articleEntity.id.eq(commentEntity.articleId))
+                .where(commentEntity.writerId.eq(memberId)
+                        .and(cursor == -1 ? null : commentEntity.id.lt(cursor))
+                        .and(commentEntity.parentCommentId.isNull()))
+                .orderBy(commentEntity.id.desc())
+                .limit(20)
+                .fetch();
+
+       return fetch.stream().map(tuple -> new CommentSummary.ProfileComment(
+                tuple.get(commentEntity.id),
+                tuple.get(commentEntity.articleId),
+                tuple.get(articleEntity.title),
+                tuple.get(commentEntity.content),
+                tuple.get(commentEntity.isDelete),
+                tuple.get(commentEntity.createdAt),
+                tuple.get(commentEntity.updatedAt)
+        ))
+                .collect(Collectors.toList());
     }
 }
 

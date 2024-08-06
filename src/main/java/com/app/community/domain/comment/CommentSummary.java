@@ -15,7 +15,6 @@ public class CommentSummary {
             List<CommentInfo> childCommentList,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
-
     ){
     }
 
@@ -26,5 +25,17 @@ public class CommentSummary {
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
+    }
+
+    public record ProfileComment(
+            Long commentId,
+            Long articleId,
+            String articleTitle,
+
+            String content,
+            Boolean is_delete,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ){
     }
 }
