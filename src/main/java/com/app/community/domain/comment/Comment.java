@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public class Comment {
     private @Nullable Long id;
     private @NotNull Long writerId;
+    private @NotNull Long articleId;
     private @NotNull String content;
     private CommentTarget commentTarget;
     private boolean isDelete;
@@ -20,12 +21,14 @@ public class Comment {
     private Comment(
             @Nullable Long id,
             @NotNull Long writerId,
+            @NotNull Long articleId,
             @NotNull String content,
             CommentTarget commentTarget,
             boolean isDelete
     ) {
         this.id = id;
         this.writerId = writerId;
+        this.articleId = articleId;
         this.content = content;
         this.commentTarget = commentTarget;
         this.isDelete = isDelete;
@@ -33,11 +36,13 @@ public class Comment {
 
     public static Comment create(
             Long memberId,
+            Long articleId,
             CommentTarget commentTarget,
             String content
     ) {
         return Comment.builder()
                 .writerId(memberId)
+                .articleId(articleId)
                 .commentTarget(commentTarget)
                 .content(content)
                 .isDelete(false)
