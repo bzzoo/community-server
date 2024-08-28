@@ -1,0 +1,60 @@
+spring.application.name: core-api
+spring.profiles.active: local
+
+spring:
+  config:
+    import:
+      - db-main.yml
+  web.resources.add-mappings: false
+
+server:
+  tomcat:
+    max-connections: 200
+    threads:
+      max: 50
+      min-spare: 20
+
+---
+spring.config.activate.on-profile: local
+spring:
+  jwt:
+    secret: dklgjdslgksjfgp3e49utjelrkdfsvm2359usdfsdlkf #임시
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_OAUTH_CLIENT_ID}
+            client-secret: ${KAKAO_OAUTH_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            client-authentication-method: client_secret_post
+            client-name: kakao
+            scope:
+              - profile_nickname
+              - profile_image
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
+---
+spring.config.activate.on-profile: local-dev
+
+
+---
+spring.config.activate.on-profile: dev
+
+
+---
+spring.config.activate.on-profile: staging
+
+
+---
+spring.config.activate.on-profile: live
+

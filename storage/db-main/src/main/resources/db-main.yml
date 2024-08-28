@@ -1,0 +1,35 @@
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.default_batch_fetch_size: 100
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+
+---
+spring.config.activate.on-profile: local
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+storage:
+  datasource:
+    core:
+      jdbc-url: jdbc:mysql://localhost:3309/${LOCAL_DB_NAME}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${LOCAL_DB_USERNAME}
+      password: ${LOCAL_DB_PASSWORD}
+      data-source-properties:
+        rewriteBatchedStatements: true
+
+
