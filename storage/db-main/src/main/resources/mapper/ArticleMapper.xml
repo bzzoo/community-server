@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.community.storage.db.query.ArticleMapper">
+
+    <!-- 게시글 리스트 조회 -->
+    <select id="findArticleList" resultMap="ArticleInfoMap">
+        SELECT
+            a.id AS articleId,
+            a.title,
+            a.content,
+            a.article_type AS articleType,
+            m.id AS memberId,
+             m.nickname,
+            m.profile_image_path AS profileImagePath,
+            m.created_at AS memberCreatedAt,
+            m.updated_at AS memberUpdatedAt,
+            a.created_at AS articleCreatedAt,
+            a.updated_at AS articleUpdatedAt,
+            ak.keyword_id AS keywordId,
+            ak.keyword_name AS keywordName
+        FROM
+            articles a
+        LEFT JOIN members m ON a.member_id = m.id
+        LEFT JOIN article_keywords ak ON ak.article_id = a.id
+        WHERE
+        a.article_status = 'STEADY'
+        <if test="cursor != null and cursor != -1">
+            AND a.id &lt; #{cursor}
+        </if>
+        <if test="type != null">
+            AND a.article_type = #{type}
+        </if>
+        ORDER BY a.id DESC
+        LIMIT #{size}
+    </select>
+
+    <!-- 게시글 상세 조회 -->
+    <select id="findArticleDetails" resultMap="ArticleDetailsMap">
+        SELECT
+            a.id AS articleId,
+            a.title,
+            a.content,
+            a.article_type AS articleType,
+            m.id AS memberId,
+            m.nickname,
+            m.profile_image_path AS profileImagePath,
+            m.created_at AS memberCreatedAt,
+            m.updated_at AS memberUpdatedAt,
+            a.created_at AS articleCreatedAt,
+            a.updated_at AS articleUpdatedAt,
+            ak.keyword_id AS keywordId,
+            ak.keyword_name AS keywordName
+        FROM
+            articles a
+                LEFT JOIN members m ON a.member_id = m.id
+                LEFT JOIN article_keywords ak ON ak.article_id = a.id
+        WHERE
+            a.id = #{articleId}
+          AND a.article_status = 'STEADY'
+    </select>
+
+    <!-- 회원별 게시글 리스트 조회 -->
+    <select id="findArticleListByMemberId" resultMap="ArticleActivityMap">
+        SELECT
+            a.id AS articleId,
+            a.title,
+            a.content,
+            a.article_type AS articleType,
+            a.created_at AS articleCreatedAt,
+            a.updated_at AS articleUpdatedAt
+        FROM
+            articles a
+        WHERE
+            a.article_status = 'STEADY'
+        AND a.member_id = #{memberId}
+        <if test="cursor != null and cursor != -1">
+            AND a.id &lt; #{cursor}
+        </if>
+        <if test="type != null">
+            AND a.article_type = #{type}
+        </if>
+        ORDER BY a.id DESC
+        LIMIT #{size}
+    </select>
+
+    <resultMap id="ArticleInfoMap" type="ArticleInfo">
+        <id column="articleId" property="articleId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="articleType" property="articleType"/>
+        <result column="articleCreatedAt" property="createdAt"/>
+        <result column="articleUpdatedAt" property="updatedAt"/>
+
+        <association property="author" javaType="Author">
+            <id column="memberId" property="memberId"/>
+            <result column="nickname" property="nickname"/>
+            <result column="profileImagePath" property="profileImagePath"/>
+            <result column="memberCreatedAt" property="createdAt"/>
+            <result column="memberUpdatedAt" property="updatedAt"/>
+        </association>
+
+        <collection property="keywordList" ofType="ArticleKeywordInfo">
+            <id column="keywordId" property="keywordId"/>
+            <result column="keywordName" property="keywordName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="ArticleDetailsMap" type="ArticleDetails" extends="ArticleInfoMap"/>
+
+    <resultMap id="ArticleActivityMap" type="ArticleActivity">
+        <id column="articleId" property="articleId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="articleType" property="articleType"/>
+        <result column="articleCreatedAt" property="createdAt"/>
+        <result column="articleUpdatedAt" property="updatedAt"/>
+    </resultMap>
+
+</mapper>
