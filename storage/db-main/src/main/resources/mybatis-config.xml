@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <typeAlias alias="ArticleInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleInfo"/>
+        <typeAlias alias="ArticleDetails" type="com.app.community.domain.agg.article.ArticleQuery$ArticleDetails"/>
+        <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
+        <typeAlias alias="Author" type="com.app.community.domain.agg.article.ArticleQuery$Author"/>
+        <typeAlias alias="ArticleKeywordInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleKeywordInfo"/>
+
+
+        <typeAlias alias="ChatInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatInfo"/>
+        <typeAlias alias="ChatMessageInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatMessageInfo"/>
+        <typeAlias alias="Participant" type="com.app.community.domain.agg.chat.ChatQuery$Participant"/>
+
+
+        <typeAlias alias="CommentInfo" type="com.app.community.domain.agg.comment.CommentQuery$CommentInfo"/>
+        <typeAlias alias="ProfileComment" type="com.app.community.domain.agg.comment.CommentQuery$ProfileComment"/>
+        <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$Author"/>
+    </typeAliases>
+</configuration>
