@@ -1,6 +1,6 @@
 package com.app.community.domain.agg.upvote;
 
-import com.app.community.domain.agg.point.PointHistoryProcessor;
+import com.app.community.domain.agg.point.PointProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ public class UpvoteService {
 
     private final UpvoteReader upvoteReader;
     private final UpvoteWriter upvoteWriter;
-    private final PointHistoryProcessor pointHistoryProcessor;
+    private final PointProcessor pointProcessor;
 
     public void upvote(Long executorId, Long opponentId, UpvoteTarget target) {
         upvoteReader.existsUpvote(executorId, target);

@@ -1,7 +1,7 @@
 package com.app.community.domain.agg.comment;
 
 import com.app.community.domain.agg.member.LoginMember;
-import com.app.community.domain.agg.point.PointHistoryProcessor;
+import com.app.community.domain.agg.point.PointProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,11 @@ public class CommentService {
 
     private final CommentWriter commentWriter;
     private final CommentReader commentReader;
+    private final PointProcessor pointProcessor;
 
     public void create(LoginMember member, Long articleId, CommentTarget target, String content) {
-        commentWriter.append(member.memberId(), articleId, target,content);
+        var comment = commentWriter.append(member.memberId(), articleId, target, content);
+        pointProcessor.rewardCommenting(member.memberId(), comment.getId());
     }
 
     public void update(LoginMember member, Long commentId, String content) {

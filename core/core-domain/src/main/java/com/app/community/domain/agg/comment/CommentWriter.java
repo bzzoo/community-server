@@ -10,9 +10,9 @@ public class CommentWriter {
 
     private final CommentRepository commentRepository;
 
-    public void append(Long memberId, Long articleId, CommentTarget target, String content) {
+    public Comment append(Long memberId, Long articleId, CommentTarget target, String content) {
         Comment newComment = Comment.create(memberId, articleId, content, target);
-        commentRepository.save(newComment);
+        return commentRepository.save(newComment);
     }
 
     public void update(LoginMember member, Comment comment, String content) {
