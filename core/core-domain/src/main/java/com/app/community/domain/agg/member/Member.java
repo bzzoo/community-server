@@ -34,4 +34,11 @@ public class Member {
     public void update(MemberProfile profile) {
         this.profile = profile;
     }
+
+    public void updatePoints(int points) {
+        this.grade = new MemberGrade(
+                grade.value() + points,
+                grade.tier()
+        ).calculateTier();
+    }
 }

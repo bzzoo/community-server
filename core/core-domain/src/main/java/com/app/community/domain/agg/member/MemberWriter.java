@@ -14,9 +14,12 @@ public class MemberWriter {
         return memberRepository.save(member);
     }
 
+    public Member update(Member member){
+        return memberRepository.save(member);
+    }
+
     public Member updateProfile(Member member, MemberProfile profile) {
         member.update(profile);
         return memberRepository.save(member);
     }
-
 }
