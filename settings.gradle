@@ -11,3 +11,5 @@ rootProject.name = 'community'
 include 'core:core-api'
 include 'core:core-domain'
 include 'storage:db-main'
+include 'support:logging'
+

@@ -18,10 +18,4 @@ public class PointHistoryCoreRepository implements PointHistoryRepository {
     public PointHistory save(PointHistory pointHistory) {
         return pointHistoryJpaRepository.save(PointHistoryEntity.fromDomain(pointHistory)).toDomain();
     }
-
-    @Override
-    public List<PointHistory> findAllTransactionsByMemberId(Long memberId, Long targetId) {
-        List<PointHistoryEntity> historyList = pointHistoryJpaRepository.findAllTransactionsByMemberId(memberId);
-        return historyList.stream().map(PointHistoryEntity::toDomain).collect(Collectors.toList());
-    }
 }
