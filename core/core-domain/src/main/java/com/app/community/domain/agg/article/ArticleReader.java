@@ -1,7 +1,7 @@
 package com.app.community.domain.agg.article;
 
-import com.app.community.domain.support.error.CoreApiException;
-import com.app.community.domain.support.error.ErrorType;
+import com.app.community.domain.support.error.DomainException;
+import com.app.community.domain.support.error.DomainErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +13,6 @@ public class ArticleReader {
 
     public Article getById(Long articleId){
         return articleRepository.findById(articleId)
-                .orElseThrow(() -> new CoreApiException(ErrorType.DEFAULT_ERROR));
+                .orElseThrow(() -> new DomainException(DomainErrorType.DEFAULT_ERROR));
     }
 }

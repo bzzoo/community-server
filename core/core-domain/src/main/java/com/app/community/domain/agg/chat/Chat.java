@@ -1,7 +1,7 @@
 package com.app.community.domain.agg.chat;
 
-import com.app.community.domain.support.error.CoreApiException;
-import com.app.community.domain.support.error.ErrorType;
+import com.app.community.domain.support.error.DomainException;
+import com.app.community.domain.support.error.DomainErrorType;
 import lombok.Getter;
 
 @Getter
@@ -31,6 +31,6 @@ public class Chat {
     }
 
     public void validateDate(){
-        if(this.getStatus().equals(ChatStatus.END)) throw new CoreApiException(ErrorType.CHAT_ENDED);
+        if(this.getStatus().equals(ChatStatus.END)) throw new DomainException(DomainErrorType.CHAT_ENDED);
     }
 }

@@ -33,13 +33,12 @@ public class JWTFilter extends OncePerRequestFilter {
 
         }
         else if (StringUtils.hasText(jwt)) {
-            String username = jwtUtil.getUsername(jwt);
             Long memberId = jwtUtil.getMemberId(jwt);
             Authentication authentication = new UsernamePasswordAuthenticationToken(new LoginMember(memberId), null, null);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             Authentication anonymousAuth = new UsernamePasswordAuthenticationToken(
-                    null,
+                    -1L,
                     "anonymousUser",
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))
             );
