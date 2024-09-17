@@ -1,0 +1,11 @@
+|===
+|이름|타입|필수 여부|제약 조건|설명
+
+{{#fields}}
+    |`+{{path}}+`
+    |{{type}}
+    |{{#optional}}X{{/optional}}
+    |{{#constraints}}{{.}}{{/constraints}}
+    |{{description}}
+{{/fields}}
+|===
