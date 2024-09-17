@@ -14,7 +14,7 @@ public class MemberQuery {
             return new MemberInfo(
                     member.getId(),
                     member.getProfile(),
-                    member.getSocial(),
+                    member.getSocialInfo(),
                     member.getStatus(),
                     member.getGrade()
             );

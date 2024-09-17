@@ -13,16 +13,16 @@ public class ArticleWriter {
 
     private final ArticleRepository articleRepository;
 
+    public Article append(LoginMember member, ArticleContent content, ArticleType type, List<Keyword> keywords) {
+        ArticleKeywordList articleKeywordList = createArticleKeywordList(keywords);
+        Article newArticle = Article.create(member.memberId(), content, type, articleKeywordList);
+        return articleRepository.save(newArticle);
+    }
+
     public void modify(LoginMember member, Article article, ArticleContent newContent, List<Keyword> keywords) {
         ArticleKeywordList articleKeywordList = createArticleKeywordList(keywords);
         article.update(member.memberId(), newContent, articleKeywordList);
         articleRepository.save(article);
-    }
-
-    public Article append(LoginMember member, ArticleContent content, List<Keyword> keywords) {
-        ArticleKeywordList articleKeywordList = createArticleKeywordList(keywords);
-        Article newArticle = Article.create(member.memberId(), content, articleKeywordList);
-        return articleRepository.save(newArticle);
     }
 
     public void withdraw(LoginMember member, Article article) {
