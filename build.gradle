@@ -3,9 +3,11 @@ plugins {
 	id 'org.springframework.boot' apply(false)
 	id 'io.spring.dependency-management'
 	id 'io.spring.javaformat' apply(false)
+	id 'org.asciidoctor.jvm.convert' apply(false)
 }
 
 apply from: 'lint.gradle'
+
 allprojects {
 	group = "${projectGroup}"
 	version = "${applicationVersion}"
@@ -25,6 +27,7 @@ subprojects {
 	apply plugin: 'java-library'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.asciidoctor.jvm.convert'
 
 	dependencies {
 		compileOnly 'org.projectlombok:lombok:1.18.30'
@@ -35,7 +38,9 @@ subprojects {
 	bootJar.enabled = false
 	jar.enabled = true
 
-	tasks.named('test') {
-		useJUnitPlatform()
+	test {
+		useJUnitPlatform {
+			exclude('restdocs')
+		}
 	}
 }
