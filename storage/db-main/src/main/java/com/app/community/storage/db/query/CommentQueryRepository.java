@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @RequiredArgsConstructor
 @Repository
 public class CommentQueryRepository implements CommentRepositoryForQuery {
@@ -15,12 +14,12 @@ public class CommentQueryRepository implements CommentRepositoryForQuery {
     private final CommentMapper commentMapper;
 
     @Override
-    public List<CommentInfo> findCommentListByArticleId(Long articleId, Long cursor) {
-        return commentMapper.findCommentListByArticleId(articleId, cursor);
+    public List<CommentInfo> findCommentListByArticleId(Long articleId, int size, Long cursor) {
+        return commentMapper.findCommentListByArticleId(articleId, size, cursor);
     }
 
     @Override
-    public List<ProfileComment> findAnswerByMember(Long memberId, Long cursor) {
-        return commentMapper.findAnswerByMember(memberId, cursor);
+    public List<ProfileComment> findAnswerByMember(Long memberId, int size, Long cursor) {
+        return commentMapper.findAnswerByMember(memberId, size, cursor);
     }
 }

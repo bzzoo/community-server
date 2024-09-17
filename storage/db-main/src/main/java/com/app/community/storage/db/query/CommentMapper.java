@@ -10,6 +10,15 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    List<CommentInfo> findCommentListByArticleId(@Param("articleId") Long articleId, @Param("cursor") Long cursor);
-    List<ProfileComment> findAnswerByMember(@Param("memberId") Long memberId, @Param("cursor") Long cursor);
+    List<CommentInfo> findCommentListByArticleId(
+            @Param("articleId") Long articleId,
+            @Param("size") int size,
+            @Param("cursor") Long cursor
+    );
+
+    List<ProfileComment> findAnswerByMember(
+            @Param("memberId") Long memberId,
+            @Param("size") int size,
+            @Param("cursor") Long cursor
+    );
 }

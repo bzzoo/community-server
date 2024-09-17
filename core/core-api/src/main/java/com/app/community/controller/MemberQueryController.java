@@ -1,15 +1,14 @@
 package com.app.community.controller;
 
+import com.app.community.domain.agg.member.LoginMember;
 import com.app.community.domain.agg.member.MemberQuery.MemberInfo;
 import com.app.community.domain.agg.member.MemberReadService;
 import com.app.community.domain.agg.point.PointHistory;
+import com.app.community.support.response.ApiResponse;
 import com.app.community.support.response.CursorResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
@@ -19,28 +18,29 @@ public class MemberQueryController {
     private final MemberReadService memberReadService;
 
     @GetMapping("/me")
-    public ResponseEntity<MemberInfo> me(
-            @AuthenticationPrincipal Long memberId
+    ApiResponse<MemberInfo> me(
+            @AuthenticationPrincipal LoginMember member
     ) {
-        MemberInfo memberInfo = memberReadService.getMemberInfo(memberId);
-        return ResponseEntity.ok().body(memberInfo);
+        MemberInfo memberInfo = memberReadService.getMemberInfo(member.memberId());
+        return ApiResponse.success(memberInfo);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberInfo> getMyProfile(
-            @PathVariable(name = "memberId") Long memberId
+    ApiResponse<MemberInfo> getMyProfile(
+            @AuthenticationPrincipal LoginMember member
     ) {
-        MemberInfo memberInfo = memberReadService.getMemberInfo(memberId);
-        return ResponseEntity.ok().body(memberInfo);
+        MemberInfo memberInfo = memberReadService.getMemberInfo(member.memberId());
+        return ApiResponse.success(memberInfo);
     }
 
     @GetMapping("/point-history")
-    public ResponseEntity<CursorResult<PointHistory>> getPointHistory(
-            @AuthenticationPrincipal Long memberId,
-            @RequestParam(name = "s", required = false, defaultValue = "20") int size,
-            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor
+    ApiResponse<CursorResult<PointHistory>> getPointHistory(
+            @AuthenticationPrincipal LoginMember member,
+            @RequestParam(name = "sz", required = false, defaultValue = "20") int size,
+            @RequestParam(name = "cr", required = false, defaultValue = "-1") Long cursor
     ) {
-        List<PointHistory> pointHistories= memberReadService.getPointHistory(memberId, size);
-        return ResponseEntity.ok().body(CursorResult.of(pointHistories, size, PointHistory::getId));
+        var pointHistories= memberReadService.getPointHistory(member.memberId(), size, cursor);
+        var pointHistory = CursorResult.of(pointHistories, size, PointHistory::getId);
+        return ApiResponse.success(pointHistory);
     }
 }

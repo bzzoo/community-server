@@ -3,13 +3,11 @@ package com.app.community.controller;
 import com.app.community.domain.agg.article.ArticleQuery.*;
 import com.app.community.domain.agg.article.ArticleReadService;
 import com.app.community.domain.agg.article.ArticleType;
+import com.app.community.support.response.ApiResponse;
 import com.app.community.support.response.CursorResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/articles")
@@ -19,36 +17,34 @@ public class ArticleQueryController {
     private final ArticleReadService articleReadService;
 
     @GetMapping("")
-    ResponseEntity<CursorResult<ArticleInfo>> getArticleList(
-            @RequestParam(name = "s", required = false, defaultValue = "20") int size,
-            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor,
-            @RequestParam(name = "t", required = false) String type
+    ApiResponse<CursorResult<ArticleInfo>> getArticleList(
+            @RequestParam(name = "sz", required = false, defaultValue = "20") int size,
+            @RequestParam(name = "cr", required = false, defaultValue = "-1") Long cursor,
+            @RequestParam(name = "tp", required = false) String type
     ) {
-        List<ArticleInfo> articles
-                = articleReadService.getLatestArticleList(size, cursor, ArticleType.from(type));
-        return ResponseEntity.ok()
-                .body( CursorResult.of(articles, size, ArticleInfo::getArticleId));
+        var articles = articleReadService.getLatestArticleList(size, cursor, ArticleType.from(type));
+        var cursorResult = CursorResult.of(articles, size, ArticleInfo::getArticleId);
+        return ApiResponse.success(cursorResult);
     }
 
     @GetMapping("/{articleId}")
-    ResponseEntity<ArticleDetails> getArticleDetails(
+    ApiResponse<ArticleDetails> getArticleDetails(
             @PathVariable(value = "articleId") Long articleId,
             @AuthenticationPrincipal Long loginMemberId
     ) {
-        ArticleDetails articleDetails = articleReadService.getArticleDetails(articleId, loginMemberId);
-        return ResponseEntity.ok().body(articleDetails);
+        var articleDetails = articleReadService.getArticleDetails(articleId, loginMemberId);
+        return ApiResponse.success(articleDetails);
     }
 
     @GetMapping("/profiles")
-    ResponseEntity<CursorResult<ArticleActivity>> getArticleListByMember(
+    ApiResponse<CursorResult<ArticleActivity>> getArticleListByMember(
             @AuthenticationPrincipal Long loginMemberId,
-            @RequestParam(name = "s", required = false, defaultValue = "20") int size,
-            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor,
-            @RequestParam(name = "t", required = false, defaultValue = "SHARE") String type
+            @RequestParam(name = "sz", required = false, defaultValue = "20") int size,
+            @RequestParam(name = "cr", required = false, defaultValue = "-1") Long cursor,
+            @RequestParam(name = "tp", required = false, defaultValue = "SHARE") String type
     ) {
-        List<ArticleActivity> activities
-                = articleReadService.getArticleListByMemberId(size, cursor, ArticleType.from(type), loginMemberId);
-        return ResponseEntity.ok()
-                .body(CursorResult.of(activities,size, ArticleActivity::getArticleId));
+        var activities = articleReadService.getArticleListByMemberId(size, cursor, ArticleType.from(type), loginMemberId);
+        var cursorResult = CursorResult.of(activities, size, ArticleActivity::getId);
+        return ApiResponse.success(cursorResult);
     }
 }

@@ -4,8 +4,8 @@ import com.app.community.domain.agg.comment.CommentService;
 import com.app.community.domain.agg.member.LoginMember;
 
 import com.app.community.controller.request.CommentRequests.*;
+import com.app.community.support.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,31 +17,31 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping()
-    ResponseEntity<Void> create(
+    ApiResponse<Void> create(
             @AuthenticationPrincipal LoginMember member,
             @RequestBody NewCommentRequest request
     ) {
         commentService.create(member, request.articleId(), request.toTarget(), request.content());
-        return ResponseEntity.ok().build();
+        return ApiResponse.success();
     }
 
     @PostMapping("/{commentId}")
-    ResponseEntity<Void> update(
+    ApiResponse<Void> update(
             @AuthenticationPrincipal LoginMember member,
             @PathVariable(name = "commentId") Long commentId,
             @RequestBody UpdateRequest request
     ) {
         commentService.update(member, commentId, request.content());
-        return ResponseEntity.ok().build();
+        return ApiResponse.success();
     }
 
     @PutMapping("/{commentId}")
-    ResponseEntity<Void> delete(
+    ApiResponse<Void> delete(
             @AuthenticationPrincipal LoginMember member,
             @PathVariable(name = "commentId") Long commentId
     ) {
         commentService.delete(member, commentId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.success();
     }
 
 }

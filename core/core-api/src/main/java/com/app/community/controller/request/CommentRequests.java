@@ -9,17 +9,16 @@ public class CommentRequests {
             Long articleId,
             String content,
             Long targetId,
-            CommentTargetType targetType
+            String targetType
     ){
+
         public CommentTarget toTarget(){
+            CommentTargetType targetType = CommentTargetType.from(this.targetType);
             return new CommentTarget(targetId, targetType);
         }
     }
 
     public record UpdateRequest(
-            String content,
-            CommentTargetType targetType
-    ){
-
-    }
+            String content
+    ){}
 }

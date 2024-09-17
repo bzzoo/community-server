@@ -15,49 +15,36 @@ public class ArticleRequests {
             String title,
             String content,
             String articleType,
-            List<KeywordRequest> keywords
+            List<String> keywords
     ) {
         public ArticleContent toContent() {
-            return new ArticleContent(
-                    title,
-                    content,
-                    ArticleType.from(articleType)
-            );
+            return new ArticleContent(title, content);
         }
 
         public List<KeywordName> toKeywordNames() {
             return keywords.stream()
-                    .map(KeywordRequest::toKeywordName)
+                    .map(KeywordName::new)
                     .collect(Collectors.toList());
+        }
+
+        public ArticleType toType() {
+            return ArticleType.from(articleType);
         }
     }
 
     public record UpdateRequest(
             String title,
             String content,
-            String articleType,
-            List<KeywordRequest> keywords
+            List<String> keywords
     ) {
         public ArticleContent toContent() {
-            return new ArticleContent(
-                    title,
-                    content,
-                    ArticleType.from(articleType)
-            );
+            return new ArticleContent(title, content);
         }
 
         public List<KeywordName> toKeywordNames() {
             return keywords.stream()
-                    .map(KeywordRequest::toKeywordName)
+                    .map(KeywordName::new)
                     .collect(Collectors.toList());
-        }
-    }
-
-    public record KeywordRequest(
-            String name
-    ) {
-        public KeywordName toKeywordName() {
-            return new KeywordName(name);
         }
     }
 }

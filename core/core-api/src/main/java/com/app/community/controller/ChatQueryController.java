@@ -2,13 +2,11 @@ package com.app.community.controller;
 
 import com.app.community.domain.agg.chat.ChatQuery.*;
 import com.app.community.domain.agg.chat.ChatReadService;
+import com.app.community.support.response.ApiResponse;
 import com.app.community.support.response.CursorResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/chats")
@@ -18,23 +16,26 @@ public class ChatQueryController {
     private final ChatReadService chatReadService;
 
     @GetMapping("")
-    ResponseEntity<List<ChatInfo>> getMyChatList(
+    ApiResponse<CursorResult<ChatInfo>> getMyChatList(
             @AuthenticationPrincipal Long memberId,
-            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor
+            @RequestParam(name = "sz", required = false, defaultValue = "20") int size,
+            @RequestParam(name = "cr", required = false, defaultValue = "-1") Long cursor
     ) {
-        List<ChatInfo> chatList = chatReadService.getChatListByMemberId(memberId);
-        return ResponseEntity.ok().body(chatList);
+        var chatList = chatReadService.getChatListByMemberId(memberId, size, cursor);
+        var cursorResult = CursorResult.of(chatList, size, ChatInfo::getChatId);
+        return ApiResponse.success(cursorResult);
     }
 
     @GetMapping("/{chatId}/messages")
-    ResponseEntity<CursorResult<ChatMessageInfo>> getChatMessageList(
+    ApiResponse<CursorResult<ChatMessageInfo>> getChatMessageList(
             @AuthenticationPrincipal Long memberId,
             @PathVariable(name = "chatId") Long chatId,
-            @RequestParam(name = "c", required = false, defaultValue = "-1") Long cursor,
-            @RequestParam(name = "s", required = false, defaultValue = "20") int size
+            @RequestParam(name = "sz", required = false, defaultValue = "20") int size,
+            @RequestParam(name = "cr", required = false, defaultValue = "-1") Long cursor
     ) {
-        List<ChatMessageInfo> chatMessages = chatReadService.getChatMessageList(memberId, chatId, cursor);
-        return ResponseEntity.ok().body(CursorResult.of(chatMessages, size, ChatMessageInfo::getChatId));
+        var chatMessages = chatReadService.getChatMessageList(memberId, chatId, size, cursor);
+        var cursorResult = CursorResult.of(chatMessages, 20, ChatMessageInfo::getChatId);
+        return ApiResponse.success(cursorResult);
     }
 }
 
