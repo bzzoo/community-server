@@ -54,6 +54,7 @@ public class ArticleQuery {
     @Getter
     @AllArgsConstructor
     public static class ArticleActivity {
+        private final Long id;
         private final Long articleId;
         private final String title;
         private final String content;

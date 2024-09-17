@@ -18,7 +18,7 @@ public class ArticleEntityConverter {
                 article.getWriterId(),
                 article.getContent().title(),
                 article.getContent().content(),
-                article.getContent().type(),
+                article.getType(),
                 article.getStatus()
         );
     }
@@ -32,11 +32,7 @@ public class ArticleEntityConverter {
     public static Article toDomain(ArticleEntity articleEntity, List<ArticleKeywordEntity> articleKeywordEntities) {
         if (articleEntity == null) return null;
 
-        ArticleContent content = new ArticleContent(
-                articleEntity.getTitle(),
-                articleEntity.getContent(),
-                articleEntity.getType()
-        );
+        ArticleContent content = new ArticleContent(articleEntity.getTitle(), articleEntity.getContent());
 
         Set<Long> ids = articleKeywordEntities.stream()
                 .map(ArticleKeywordEntity::getId)
@@ -47,6 +43,7 @@ public class ArticleEntityConverter {
                 articleEntity.getId(),
                 articleEntity.getWriterId(),
                 content,
+                articleEntity.getType(),
                 articleEntity.getStatus(),
                 articleKeywordList
         );

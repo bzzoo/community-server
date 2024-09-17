@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
         "com.app.community",
         "com.app.community.domain",
         "com.app.community.storage.db"
-
 })
 public class CommunityApplication {
 

@@ -10,6 +10,16 @@ import java.util.List;
 @Mapper
 public interface ChatMapper {
 
-    List<ChatInfo> findChatListByMemberId(@Param("memberId") Long memberId);
-    List<ChatMessageInfo> findChatMessageList(@Param("memberId") Long memberId, @Param("chatId") Long chatId, @Param("cursor") Long cursor);
+    List<ChatInfo> findChatListByMemberId(
+            @Param("memberId") Long memberId,
+            @Param("size") int size,
+            @Param("cursor") Long cursor
+    );
+
+    List<ChatMessageInfo> findChatMessageList(
+            @Param("memberId") Long memberId,
+            @Param("chatId") Long chatId,
+            @Param("size") int size,
+            @Param("cursor") Long cursor
+    );
 }

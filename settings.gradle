@@ -3,6 +3,8 @@ pluginManagement {
         id 'org.springframework.boot' version "${springBootVersion}"
         id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
         id 'io.spring.javaformat' version "${springJavaFormatVersion}"
+        id 'org.asciidoctor.jvm.convert' version "${asciidoctorConvertVersion}"
+
     }
 }
 
@@ -12,4 +14,6 @@ include 'core:core-api'
 include 'core:core-domain'
 include 'storage:db-main'
 include 'support:logging'
+include 'tests:api-docs'
+
 

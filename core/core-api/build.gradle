@@ -1,10 +1,19 @@
 bootJar.enabled = true
 jar.enabled = false
 
+configurations {
+    asciidoctorExt
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 dependencies {
     implementation project(":core:core-domain")
     implementation project(":storage:db-main")
     implementation project(":support:logging")
+    implementation project(":tests:api-docs")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -14,4 +23,32 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
+
+tasks.register('restDocsTest', Test) {
+    group = 'verification'
+    useJUnitPlatform {
+        includeTags('restdocs')
+    }
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    sources {
+        include ("**/index.adoc")
+    }
+    baseDirFollowsSourceFile()
+    dependsOn restDocsTest
+}
+
+bootJar {
+    dependsOn asciidoctor
+    print("${asciidoctor.outputDir}")
+    from("${asciidoctor.outputDir}") {
+        into 'src/main/resources/static/docs'
+    }
+}
+

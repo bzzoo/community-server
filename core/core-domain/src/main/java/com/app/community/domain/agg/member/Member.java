@@ -4,22 +4,22 @@ import lombok.Getter;
 
 @Getter
 public class Member {
-    private Long id;
+    private final Long id;
     private MemberProfile profile;
-    private MemberSocial social;
+    private MemberSocial socialInfo;
     private MemberGrade grade;
     private MemberStatus status;
 
     public Member(
             Long id,
             MemberProfile profile,
-            MemberSocial social,
+            MemberSocial socialInfo,
             MemberGrade grade,
             MemberStatus status
     ) {
         this.id = id;
         this.profile = profile;
-        this.social = social;
+        this.socialInfo = socialInfo;
         this.grade = grade;
         this.status = status;
     }
@@ -36,9 +36,6 @@ public class Member {
     }
 
     public void updatePoints(int points) {
-        this.grade = new MemberGrade(
-                grade.value() + points,
-                grade.tier()
-        ).calculateTier();
+        this.grade = grade.applyPointsAndUpdateTier(points);
     }
 }

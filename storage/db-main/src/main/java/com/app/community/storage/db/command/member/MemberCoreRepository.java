@@ -26,8 +26,8 @@ public class MemberCoreRepository implements MemberRepository {
                 member.getProfile().position(),
                 member.getGrade().value(),
                 member.getGrade().tier(),
-                member.getSocial().socialId(),
-                member.getSocial().memberSocialType(),
+                member.getSocialInfo().socialId(),
+                member.getSocialInfo().memberSocialType(),
                 member.getStatus()
         );
         return memberJpaRepository.save(memberEntity).toDomain();

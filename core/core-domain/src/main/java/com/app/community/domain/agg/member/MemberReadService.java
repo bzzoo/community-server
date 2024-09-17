@@ -16,7 +16,7 @@ public class MemberReadService {
         return memberRepositoryForQuery.getById(memberId);
     }
 
-    public List<PointHistory> getPointHistory(Long memberId, int size){
-        return memberRepositoryForQuery.getPointHistory(memberId);
+    public List<PointHistory> getPointHistory(Long memberId, int size, Long cursor){
+        return memberRepositoryForQuery.getPointHistory(memberId , size, cursor);
     }
 }

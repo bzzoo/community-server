@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MemberRepositoryForQuery {
     MemberQuery.MemberInfo getById(Long memberId);
-    List<PointHistory> getPointHistory(Long memberId);
+    List<PointHistory> getPointHistory(Long memberId, int size, Long cursor);
 }

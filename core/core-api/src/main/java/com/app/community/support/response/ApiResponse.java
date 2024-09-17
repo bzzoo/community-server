@@ -1,23 +1,22 @@
 package com.app.community.support.response;
 
-import com.app.community.domain.support.error.ErrorMessage;
-import com.app.community.domain.support.error.ErrorType;
+import com.app.community.support.error.ErrorMessage;
+import com.app.community.domain.support.error.DomainErrorType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Getter
 public class ApiResponse<T> {
 
     private final ResultType result;
     private final T data;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final ErrorMessage error;
 
-    private ApiResponse(ResultType result, T data, ErrorMessage error) {
-        this.result = result;
-        this.data = data;
-        this.error = error;
-    }
-
-    public static ApiResponse<?> success() {
+    public static ApiResponse<Void> success() {
         return new ApiResponse<>(ResultType.SUCCESS, null, null);
     }
 
@@ -25,11 +24,11 @@ public class ApiResponse<T> {
         return new ApiResponse<>(ResultType.SUCCESS, data, null);
     }
 
-    public static ApiResponse<?> error(ErrorType error) {
+    public static ApiResponse<?> error(DomainErrorType error) {
         return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error));
     }
 
-    public static ApiResponse<?> error(ErrorType error, Object errorData) {
+    public static ApiResponse<?> error(DomainErrorType error, Object errorData) {
         return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error, errorData));
     }
 }

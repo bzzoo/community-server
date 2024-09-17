@@ -1,5 +1,7 @@
 package com.app.community.domain.agg.chat;
 
+import com.app.community.domain.agg.chat.ChatQuery.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +13,11 @@ public class ChatReadService {
 
     private final ChatRepositoryForQuery chatRepositoryForQuery;
 
-    public List<ChatQuery.ChatInfo> getChatListByMemberId(Long memberId) {
-        return chatRepositoryForQuery.findChatListByMemberId(memberId);
+    public List<ChatInfo> getChatListByMemberId(Long memberId, int size, Long cursor) {
+        return chatRepositoryForQuery.findChatListByMemberId(memberId, size, cursor);
     }
 
-    public List<ChatQuery.ChatMessageInfo> getChatMessageList(Long memberId, Long chatId, Long cursor) {
-        return chatRepositoryForQuery.findChatMessageList(memberId, chatId, cursor);
+    public List<ChatMessageInfo> getChatMessageList(Long memberId, Long chatId, int size, Long cursor) {
+        return chatRepositoryForQuery.findChatMessageList(memberId, chatId, size, cursor);
     }
 }

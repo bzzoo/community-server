@@ -17,9 +17,9 @@ public class ArticleService {
     private final PointProcessor pointProcessor;
     private final ArticleUpdateValidator articleUpdateValidator;
 
-    public void create(LoginMember member, ArticleContent content, List<KeywordName> keywordNames) {
+    public void create(LoginMember member, ArticleContent content, ArticleType type, List<KeywordName> keywordNames) {
         var keywords = keywordProcessor.process(keywordNames);
-        var article = articleWriter.append(member, content, keywords);
+        var article = articleWriter.append(member, content, type, keywords);
         pointProcessor.rewardPosting(article.getWriterId(), article.getId());
     }
 

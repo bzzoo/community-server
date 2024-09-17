@@ -5,8 +5,8 @@ import com.app.community.domain.agg.chat.ChatService;
 import com.app.community.domain.agg.member.LoginMember;
 import com.app.community.controller.request.ChatRequests.*;
 import com.app.community.controller.response.ChatResponses.CheckChatResponse;
+import com.app.community.support.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +20,8 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @PostMapping("/")
-    ResponseEntity<CheckChatResponse> createOrGet(
+    @PostMapping("")
+    ApiResponse<CheckChatResponse> createOrGet(
             @AuthenticationPrincipal LoginMember member,
             @RequestBody ChatRequest request
     ) {
@@ -30,6 +30,6 @@ public class ChatController {
                 request.toDatetime()
         );
         CheckChatResponse response = new CheckChatResponse(chat.getId(), chat.getStatus());
-        return ResponseEntity.ok().body(response);
+        return ApiResponse.success(response);
     }
 }

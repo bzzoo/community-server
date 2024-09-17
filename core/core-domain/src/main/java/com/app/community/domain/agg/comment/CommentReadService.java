@@ -13,11 +13,11 @@ public class CommentReadService {
 
     private final CommentRepositoryForQuery commentRepositoryForQuery;
 
-    public List<CommentInfo> getCommentList(Long articleId, Long cursor){
-        return commentRepositoryForQuery.findCommentListByArticleId(articleId, cursor);
+    public List<CommentInfo> getCommentList(Long articleId, int size, Long cursor){
+        return commentRepositoryForQuery.findCommentListByArticleId(articleId, size, cursor);
     }
 
-    public List<ProfileComment> getAnswerByMember(Long loginMemberId, Long cursor) {
-        return commentRepositoryForQuery.findAnswerByMember(loginMemberId, cursor);
+    public List<ProfileComment> getAnswerByMember(Long loginMemberId, int size, Long cursor) {
+        return commentRepositoryForQuery.findAnswerByMember(loginMemberId, size, cursor);
     }
 }

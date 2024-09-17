@@ -2,7 +2,7 @@ package com.app.community.controller;
 
 import com.app.community.domain.agg.article.ArticleService;
 import com.app.community.domain.agg.member.LoginMember;
-import org.springframework.http.ResponseEntity;
+import com.app.community.support.response.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.app.community.controller.request.ArticleRequests.*;
@@ -16,30 +16,30 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping()
-    ResponseEntity<Void> create(
+    ApiResponse<Void> create(
             @AuthenticationPrincipal LoginMember member,
             @RequestBody NewArticleRequest request
     ) {
-        articleService.create(member, request.toContent(), request.toKeywordNames());
-        return ResponseEntity.ok().build();
+        articleService.create(member, request.toContent(), request.toType(), request.toKeywordNames());
+        return ApiResponse.success();
     }
 
     @PostMapping("/{articleId}")
-    ResponseEntity<Void> update(
+    ApiResponse<Void> update(
             @AuthenticationPrincipal LoginMember member,
             @PathVariable(name = "articleId") Long articleId,
             @RequestBody UpdateRequest request
     ) {
         articleService.update(member, articleId, request.toContent(), request.toKeywordNames());
-        return ResponseEntity.ok().build();
+        return ApiResponse.success();
     }
 
     @PutMapping("/{articleId}")
-    ResponseEntity<Void> delete(
+    ApiResponse<Void> delete(
             @AuthenticationPrincipal LoginMember member,
             @PathVariable(name = "articleId") Long articleId
     ) {
         articleService.delete(member, articleId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.success();
     }
 }

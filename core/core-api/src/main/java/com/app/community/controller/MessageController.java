@@ -15,7 +15,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @MessageMapping("/chat.sendMessage")
-    public void sendMessage(MessageRequest.SendMessage request) {
+    void sendMessage(MessageRequest.SendMessage request) {
         messageService.saveMessage(request.content(), request.chatId(), request.sender().memberId());
         messagingTemplate.convertAndSend("/topic/chat/" + request.chatId(), request);
     }
