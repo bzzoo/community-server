@@ -13,12 +13,12 @@ public class ArticleRequests {
 
     public record NewArticleRequest(
             String title,
-            String content,
+            String body,
             String articleType,
             List<String> keywords
     ) {
         public ArticleContent toContent() {
-            return new ArticleContent(title, content);
+            return new ArticleContent(title, body);
         }
 
         public List<KeywordName> toKeywordNames() {
@@ -34,11 +34,11 @@ public class ArticleRequests {
 
     public record UpdateRequest(
             String title,
-            String content,
+            String body,
             List<String> keywords
     ) {
         public ArticleContent toContent() {
-            return new ArticleContent(title, content);
+            return new ArticleContent(title, body);
         }
 
         public List<KeywordName> toKeywordNames() {

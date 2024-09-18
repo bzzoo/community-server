@@ -21,7 +21,7 @@ public class CommentController {
             @AuthenticationPrincipal LoginMember member,
             @RequestBody NewCommentRequest request
     ) {
-        commentService.create(member, request.articleId(), request.toTarget(), request.content());
+        commentService.create(member, request.articleId(), request.toTarget(), request.body());
         return ApiResponse.success();
     }
 
@@ -31,7 +31,7 @@ public class CommentController {
             @PathVariable(name = "commentId") Long commentId,
             @RequestBody UpdateRequest request
     ) {
-        commentService.update(member, commentId, request.content());
+        commentService.update(member, commentId, request.body());
         return ApiResponse.success();
     }
 

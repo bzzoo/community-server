@@ -15,7 +15,7 @@ public class ArticleQueryRepository implements ArticleRepositoryForQuery {
     private final ArticleMapper articleMapper;
 
     @Override
-    public List<ArticleInfo> findArticleList(int size, Long cursor, ArticleType type) {
+    public List<ArticleSummary> findArticleList(int size, Long cursor, ArticleType type) {
         return articleMapper.findArticleList(size, cursor, type);
     }
 

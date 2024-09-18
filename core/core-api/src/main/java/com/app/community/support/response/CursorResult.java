@@ -3,7 +3,6 @@ package com.app.community.support.response;
 import java.util.List;
 
 public record CursorResult<T>(
-        Integer totalElements,
         Long nextCursor,
         Boolean isLast,
         List<T> content
@@ -15,6 +14,6 @@ public record CursorResult<T>(
             T lastItem = items.remove(items.size() - 1);
             nextCursor = cursorExtractor.apply(lastItem) + 1;
         }
-        return new CursorResult<>(items.size(), nextCursor, isLast, items);
+        return new CursorResult<>(nextCursor, isLast, items);
     }
 }

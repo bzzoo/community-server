@@ -16,7 +16,7 @@ public class CommentQuery {
         private Long parentId;
         private String content;
         private CommentStatus status;
-        private Author author;
+        private CommentAuthor commentAuthor;
         private List<CommentInfo> childCommentList;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -24,7 +24,7 @@ public class CommentQuery {
 
     @Getter
     @AllArgsConstructor
-    public static class Author {
+    public static class CommentAuthor {
         private Long memberId;
         private String nickname;
         private String profileImagePath;

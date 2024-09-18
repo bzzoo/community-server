@@ -16,9 +16,17 @@ public class KeywordEntity extends AbstractEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String keywordName;
+
+    @Column(name = "name")
+    private String name;
+
+    public static KeywordEntity fromDomain(Keyword keyword){
+        return KeywordEntity.builder()
+                .name(keyword.getName().value())
+                .build();
+    }
 
     public Keyword toDomain(){
-        return new Keyword(id, new KeywordName(keywordName));
+        return new Keyword(id, new KeywordName(name));
     }
 }

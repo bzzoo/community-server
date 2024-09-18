@@ -21,6 +21,7 @@ public class MessageEntity extends AbstractEntity {
     private Long senderId;
     private String content;
     private Boolean isRead;
+
     @Enumerated(EnumType.STRING)
     private MessageType messageType;
 

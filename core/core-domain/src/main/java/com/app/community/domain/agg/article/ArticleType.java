@@ -13,6 +13,6 @@ public enum ArticleType {
         return Arrays.stream(ArticleType.values())
                 .filter(articleType -> articleType.name().equalsIgnoreCase(type))
                 .findFirst()
-                .orElseThrow(() -> new DomainException(DomainErrorType.INVALID_ARTICLE_TYPE));
+                .orElse(null);
     }
 }

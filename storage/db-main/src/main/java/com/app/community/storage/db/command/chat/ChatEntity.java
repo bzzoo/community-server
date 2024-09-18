@@ -17,14 +17,15 @@ import java.time.LocalDateTime;
 @Entity
 public class ChatEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long respondentId;
     private Long requesterId;
-    private ChatStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime endAt;
+
+    @Enumerated(EnumType.STRING)
+    private ChatStatus status;
 
 
     public Chat toDomain() {

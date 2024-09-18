@@ -21,7 +21,7 @@ public class KeywordCoreRepository implements KeywordRepository {
                 .map(KeywordName::value)
                 .collect(Collectors.toList());
 
-        return keywordJpaRepository.findByKeywordNameIn(toString).stream()
+        return keywordJpaRepository.findByNameIn(toString).stream()
                 .map(KeywordEntity::toDomain)
                 .collect(Collectors.toList());
     }

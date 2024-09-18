@@ -38,7 +38,7 @@ public class JWTFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             Authentication anonymousAuth = new UsernamePasswordAuthenticationToken(
-                    -1L,
+                    new LoginMember(-1L),
                     "anonymousUser",
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))
             );

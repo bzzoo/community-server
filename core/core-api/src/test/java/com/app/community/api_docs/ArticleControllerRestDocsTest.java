@@ -60,7 +60,7 @@ public class ArticleControllerRestDocsTest extends RestDocsTest {
                                         .type(JsonFieldType.STRING)
                                         .description("제목")
                                         .attributes(key("constraints").value("최소 10자 이상")),
-                                fieldWithPath("content")
+                                fieldWithPath("body")
                                         .type(JsonFieldType.STRING)
                                         .description("본문")
                                         .attributes(key("constraints").value("최소 10자 이상")),
@@ -106,7 +106,7 @@ public class ArticleControllerRestDocsTest extends RestDocsTest {
                                         .type(JsonFieldType.STRING)
                                         .description("제목")
                                         .attributes(key("constraints").value("최소 10자 이상")),
-                                fieldWithPath("content")
+                                fieldWithPath("body")
                                         .type(JsonFieldType.STRING)
                                         .description("본문")
                                         .attributes(key("constraints").value("최소 10자 이상")),

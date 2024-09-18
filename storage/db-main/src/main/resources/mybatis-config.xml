@@ -3,11 +3,16 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="ArticleInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleInfo"/>
-        <typeAlias alias="ArticleDetails" type="com.app.community.domain.agg.article.ArticleQuery$ArticleDetails"/>
-        <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
-        <typeAlias alias="Author" type="com.app.community.domain.agg.article.ArticleQuery$Author"/>
+
+        <!--조회모델 래퍼-->
+        <typeAlias alias="ArticleContentInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleContentInfo"/>
+        <typeAlias alias="ArticleAuthor" type="com.app.community.domain.agg.article.ArticleQuery$ArticleAuthor"/>
         <typeAlias alias="ArticleKeywordInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleKeywordInfo"/>
+
+        <!--아티클 조회모델-->
+        <typeAlias alias="ArticleSummary" type="com.app.community.domain.agg.article.ArticleQuery$ArticleSummary"/>
+        <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
+        <typeAlias alias="ArticleDetails" type="com.app.community.domain.agg.article.ArticleQuery$ArticleDetails"/>
 
 
         <typeAlias alias="ChatInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatInfo"/>
@@ -17,6 +22,6 @@
 
         <typeAlias alias="CommentInfo" type="com.app.community.domain.agg.comment.CommentQuery$CommentInfo"/>
         <typeAlias alias="ProfileComment" type="com.app.community.domain.agg.comment.CommentQuery$ProfileComment"/>
-        <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$Author"/>
+        <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$CommentAuthor"/>
     </typeAliases>
 </configuration>

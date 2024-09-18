@@ -22,9 +22,12 @@ public class CommentEntity extends AbstractEntity {
     private Long id;
     private Long articleId;
     private Long writerId;
-    private String content;
+    @Lob private String content;
     private Long parentCommentId;
+
+    @Enumerated(EnumType.STRING)
     private CommentTargetType targetType;
+    @Enumerated(EnumType.STRING)
     private CommentStatus status;
 
     @Builder
