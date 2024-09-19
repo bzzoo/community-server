@@ -14,7 +14,7 @@ public class ChatQueryRepository implements ChatRepositoryForQuery {
     private final ChatMapper chatMapper;
 
     @Override
-    public List<ChatInfo> findChatListByMemberId(Long memberId, int size, Long cursor) {
+    public List<ChatSummary> findChatListByMemberId(Long memberId, int size, Long cursor) {
         return chatMapper.findChatListByMemberId(memberId, size, cursor);
     }
 

@@ -14,7 +14,7 @@ public class CommentQueryRepository implements CommentRepositoryForQuery {
     private final CommentMapper commentMapper;
 
     @Override
-    public List<CommentInfo> findCommentListByArticleId(Long articleId, int size, Long cursor) {
+    public List<CommentDetails> findCommentListByArticleId(Long articleId, int size, Long cursor) {
         return commentMapper.findCommentListByArticleId(articleId, size, cursor);
     }
 

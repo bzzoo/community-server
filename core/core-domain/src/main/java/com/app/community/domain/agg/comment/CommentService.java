@@ -13,8 +13,8 @@ public class CommentService {
     private final CommentReader commentReader;
     private final PointProcessor pointProcessor;
 
-    public void create(LoginMember member, Long articleId, CommentTarget target, String content) {
-        var comment = commentWriter.append(member.memberId(), articleId, target, content);
+    public void create(LoginMember member, Long articleId, CommentTarget target, String body) {
+        var comment = commentWriter.append(member.memberId(), articleId, target, body);
         pointProcessor.rewardCommenting(member.memberId(), comment.getId());
     }
 

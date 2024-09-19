@@ -9,7 +9,7 @@ public class Message {
     private Long id;
     private Long chatId;
     private Long senderId;
-    private String content;
+    private String body;
     private Boolean isRead;
     private MessageType messageType;
 
@@ -18,24 +18,24 @@ public class Message {
             Long id,
             Long chatId,
             Long senderId,
-            String content,
+            String body,
             Boolean isRead,
             MessageType messageType
     ) {
         this.id = id;
         this.chatId = chatId;
         this.senderId = senderId;
-        this.content = content;
+        this.body = body;
         this.isRead = isRead;
         this.messageType = messageType;
     }
 
-    public static Message create(Long senderId, String content, Long chatId) {
+    public static Message create(Long senderId, String body, Long chatId) {
         return Message.builder()
                 .chatId(chatId)
                 .senderId(senderId)
                 .messageType(MessageType.MESSAGE)
-                .content(content)
+                .body(body)
                 .isRead(false)
                 .build();
     }

@@ -12,11 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static com.app.community.test.api.RestDocsUtils.requestPreprocessor;
 import static com.app.community.test.api.RestDocsUtils.responsePreprocessor;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -38,42 +40,42 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
 
     @Test
     void getArticleListTest() {
-
         List<ArticleQuery.ArticleSummary> dummyArticles = List.of(
-                createArticleSummary(1L, "Test Title", "Test Body", "SHARE", "Author1")
-        );
-
+                createArticleSummary(1L, "Test Title", "Test Body", "SHARE", "Author1"));
         when(articleReadService.getLatestArticleList(any(), any(), any())).thenReturn(dummyArticles);
-        given().contentType(ContentType.JSON)
+
+        given()
+                .contentType(ContentType.JSON)
                 .when()
                 .get("/api/articles")
                 .then()
                 .statusCode(HttpStatus.OK.value())
+                .log().all()
                 .apply(document("get-article-list", requestPreprocessor(), responsePreprocessor(),
                         queryParameters(
-                                parameterWithName("sz").optional().description("페이지 크기"),
-                                parameterWithName("cr").optional().description("커서 ID"),
-                                parameterWithName("tp").optional().description("아티클 유형")
+                                parameterWithName("sz").optional().description("페이지 크기 [기본값: 20]"),
+                                parameterWithName("cr").optional().description("커서 대상 ID [기본값: null]"),
+                                parameterWithName("tp").optional().description("아티클 유형 [기본값: null]")
                         ),
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("성공 여부"),
-                                fieldWithPath("data.nextCursor").type(JsonFieldType.NULL).optional().description("다음 페이지의 커서 (null일 수 있음)"),
+                                fieldWithPath("data.nextCursor").type(JsonFieldType.NUMBER).optional().description("다음 페이지 시작 대상 ID"),
                                 fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
                                 fieldWithPath("data.content[]").type(JsonFieldType.ARRAY).description("아티클 리스트"),
-                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).optional().description("아티클 ID (null일 수 있음)"),
-                                fieldWithPath("data.content[].contents.title").type(JsonFieldType.STRING).optional().description("아티클 제목 (null일 수 있음)"),
-                                fieldWithPath("data.content[].contents.body").type(JsonFieldType.STRING).optional().description("아티클 본문 (null일 수 있음)"),
-                                fieldWithPath("data.content[].type").type(JsonFieldType.STRING).optional().description("아티클 유형 (null일 수 있음)"),
-                                fieldWithPath("data.content[].author.id").type(JsonFieldType.NUMBER).optional().description("작성자 ID (null일 수 있음)"),
-                                fieldWithPath("data.content[].author.nickname").type(JsonFieldType.STRING).optional().description("작성자 닉네임 (null일 수 있음)"),
-                                fieldWithPath("data.content[].author.profileImagePath").type(JsonFieldType.STRING).optional().description("작성자 프로필 이미지 경로 (null일 수 있음)"),
-                                fieldWithPath("data.content[].author.createdAt").type(JsonFieldType.STRING).optional().description("작성자 계정 생성일 (null일 수 있음)"),
-                                fieldWithPath("data.content[].author.updatedAt").type(JsonFieldType.STRING).optional().description("작성자 계정 수정일 (null일 수 있음)"),
-                                fieldWithPath("data.content[].keywords[]").type(JsonFieldType.ARRAY).optional().description("키워드 리스트 (null일 수 있음)"),
-                                fieldWithPath("data.content[].keywords[].id").type(JsonFieldType.NUMBER).optional().description("키워드 ID (null일 수 있음)"),
-                                fieldWithPath("data.content[].keywords[].name").type(JsonFieldType.STRING).optional().description("키워드 이름 (null일 수 있음)"),
-                                fieldWithPath("data.content[].createdAt").type(JsonFieldType.STRING).optional().description("작성 시간 (null일 수 있음)"),
-                                fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).optional().description("수정 시간 (null일 수 있음)")
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).optional().description("아티클 ID"),
+                                fieldWithPath("data.content[].contents.title").type(JsonFieldType.STRING).description("아티클 제목"),
+                                fieldWithPath("data.content[].contents.body").type(JsonFieldType.STRING).description("아티클 본문"),
+                                fieldWithPath("data.content[].type").type(JsonFieldType.STRING).optional().description("아티클 유형"),
+                                fieldWithPath("data.content[].author.id").type(JsonFieldType.NUMBER).description("아이클 ID"),
+                                fieldWithPath("data.content[].author.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+                                fieldWithPath("data.content[].author.profileImagePath").optional().type(JsonFieldType.STRING).description("작성자 프로필 이미지 경로"),
+                                fieldWithPath("data.content[].author.createdAt").type(JsonFieldType.STRING).description("작성자 계정 생성일"),
+                                fieldWithPath("data.content[].author.updatedAt").type(JsonFieldType.STRING).description("작성자 계정 수정일"),
+                                fieldWithPath("data.content[].keywords[]").optional().type(JsonFieldType.ARRAY).description("키워드 리스트"),
+                                fieldWithPath("data.content[].keywords[].id").type(JsonFieldType.NUMBER).description("키워드 ID"),
+                                fieldWithPath("data.content[].keywords[].name").type(JsonFieldType.STRING).description("키워드 이름"),
+                                fieldWithPath("data.content[].createdAt").type(JsonFieldType.STRING).description("작성 시간"),
+                                fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).description("수정 시간")
                         )));
     }
 
@@ -81,13 +83,13 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
     void getArticleDetailsTest() {
         ArticleQuery.ArticleDetails dummyArticle =
                 createArticleDetails(1L, "Test Title", "Test Body", "SHARE", "Author1");
-
-
         when(articleReadService.getArticleDetails(any(), any())).thenReturn(dummyArticle);
+
         given().contentType(ContentType.JSON)
                 .when()
                 .get("/api/articles/{articleId}", String.valueOf(1L))
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.OK.value())
                 .apply(document("get-article-details", requestPreprocessor(), responsePreprocessor(),
                         pathParameters(
@@ -96,31 +98,31 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("성공 여부"),
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("아티클 ID"),
-                                fieldWithPath("data.contents.title").type(JsonFieldType.STRING).optional().description("아티클 제목 (null일 수 있음)"),
-                                fieldWithPath("data.contents.body").type(JsonFieldType.STRING).optional().description("아티클 본문 (null일 수 있음)"),
-                                fieldWithPath("data.type").type(JsonFieldType.STRING).optional().description("아티클 유형"),
-                                fieldWithPath("data.author.id").type(JsonFieldType.NUMBER).optional().description("작성자 ID"),
-                                fieldWithPath("data.author.nickname").type(JsonFieldType.STRING).optional().description("작성자 닉네임"),
-                                fieldWithPath("data.author.profileImagePath").type(JsonFieldType.STRING).optional().description("작성자 프로필 이미지 경로 (null일 수 있음)"),
-                                fieldWithPath("data.author.createdAt").type(JsonFieldType.STRING).optional().description("작성자 계정 생성일 (null일 수 있음)"),
-                                fieldWithPath("data.author.updatedAt").type(JsonFieldType.STRING).optional().description("작성자 계정 수정일 (null일 수 있음)"),
-                                fieldWithPath("data.keywords").type(JsonFieldType.ARRAY).optional().description("키워드 리스트"),
-                                fieldWithPath("data.keywords[].id").type(JsonFieldType.NUMBER).optional().description("키워드 ID"),
-                                fieldWithPath("data.keywords[].name").type(JsonFieldType.STRING).optional().description("키워드 이름"),
-                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).optional().description("작성 시간"),
-                                fieldWithPath("data.updatedAt").type(JsonFieldType.STRING).optional().description("수정 시간")
+                                fieldWithPath("data.contents.title").type(JsonFieldType.STRING).description("아티클 제목"),
+                                fieldWithPath("data.contents.body").type(JsonFieldType.STRING).description("아티클 본문"),
+                                fieldWithPath("data.type").type(JsonFieldType.STRING).description("아티클 유형"),
+                                fieldWithPath("data.author.id").type(JsonFieldType.NUMBER).description("작성자 ID"),
+                                fieldWithPath("data.author.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+                                fieldWithPath("data.author.profileImagePath").optional().type(JsonFieldType.STRING).description("작성자 프로필 이미지 경로"),
+                                fieldWithPath("data.author.createdAt").type(JsonFieldType.STRING).description("작성자 계정 생성일"),
+                                fieldWithPath("data.author.updatedAt").type(JsonFieldType.STRING).description("작성자 계정 수정일"),
+                                fieldWithPath("data.keywords").optional().type(JsonFieldType.ARRAY).description("키워드 리스트"),
+                                fieldWithPath("data.keywords[].id").type(JsonFieldType.NUMBER).description("키워드 ID"),
+                                fieldWithPath("data.keywords[].name").type(JsonFieldType.STRING).description("키워드 이름"),
+                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성 시간"),
+                                fieldWithPath("data.updatedAt").type(JsonFieldType.STRING).description("수정 시간")
                         )));
     }
 
     @Test
     void getArticleListByMemberTest() {
         List<ArticleQuery.ArticleActivity> dummyArticles = List.of(
-                createArticleActivity(1L, 1L, "Member Title", "Member Body", "SHARE")
-        );
+                createArticleActivity(1L, 1L, "Member Title", "Member Body", "SHARE"));
+        when(articleReadService.getArticleListByMemberId(anyInt(), any(), any(), any())).thenReturn(dummyArticles);
 
-        // Mock 설정
-        when(articleReadService.getArticleListByMemberId(any(), any(), any(), any())).thenReturn(dummyArticles);
-        given().contentType(ContentType.JSON)
+        given().log().all()
+                .body(dummyArticles)
+                .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer token")
                 .when()
                 .get("/api/articles/profiles")
@@ -128,22 +130,21 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
                 .statusCode(HttpStatus.OK.value())
                 .apply(document("get-article-list-by-member", requestPreprocessor(), responsePreprocessor(),
                         queryParameters(
-                                parameterWithName("sz").optional().description("페이지 크기"),
-                                parameterWithName("cr").optional().description("커서 ID"),
-                                parameterWithName("tp").optional().description("아티클 유형")
+                                parameterWithName("sz").optional().description("페이지 크기 [기본값: 20]"),
+                                parameterWithName("cr").optional().description("커서 대상 ID [기본값: null]"),
+                                parameterWithName("tp").optional().description("아티클 유형 [기본값: null]")
                         ),
                         responseFields(
-                                fieldWithPath("result").type(JsonFieldType.STRING).optional().description("성공 여부"),
-                                fieldWithPath("data.nextCursor").type(JsonFieldType.NUMBER).optional().description("다음 페이지의 커서"),
-                                fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN).optional().description("마지막 페이지 여부"),
-                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).optional().description("활동 ID"),
-                                fieldWithPath("data.content[].articleId").type(JsonFieldType.NUMBER).optional().description("아티클 ID"),
-                                fieldWithPath("data.content[].contents.title").type(JsonFieldType.STRING).optional().description("아티클 제목 (null일 수 있음)"),
-                                fieldWithPath("data.content[].contents.body").type(JsonFieldType.STRING).optional().description("아티클 본문 (null일 수 있음)"),
-                                fieldWithPath("data.content[].articleType").type(JsonFieldType.STRING).optional().description("아티클 유형"),
-                                fieldWithPath("data.content[].createdAt").type(JsonFieldType.STRING).optional().description("작성 시간"),
-                                fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).optional().description("수정 시간"),
-                                fieldWithPath("data.nextCursor").type(JsonFieldType.NUMBER).optional().description("다음 페이지의 커서")
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("성공 여부"),
+                                fieldWithPath("data.nextCursor").type(JsonFieldType.NUMBER).optional().description("다음 페이지 시작 대상 ID"),
+                                fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("아티클 활동 ID"),
+                                fieldWithPath("data.content[].articleId").type(JsonFieldType.NUMBER).description("아티클 ID"),
+                                fieldWithPath("data.content[].contents.title").type(JsonFieldType.STRING).description("아티클 제목"),
+                                fieldWithPath("data.content[].contents.body").type(JsonFieldType.STRING).description("아티클 본문"),
+                                fieldWithPath("data.content[].articleType").type(JsonFieldType.STRING).description("아티클 유형"),
+                                fieldWithPath("data.content[].createdAt").type(JsonFieldType.STRING).description("작성 시간"),
+                                fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).description("마지막 수정 시간")
                         )));
     }
 
@@ -154,7 +155,9 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
         articleSummary.setContents(new ArticleQuery.ArticleContentInfo(title, body));
         articleSummary.setType(ArticleType.valueOf(type));
         articleSummary.setAuthor(new ArticleQuery.ArticleAuthor(1L, authorNickname, null, LocalDateTime.now(), LocalDateTime.now()));
-        articleSummary.setKeywords(List.of(new ArticleQuery.ArticleKeywordInfo()));
+        articleSummary.setKeywords(Collections.emptyList());
+        articleSummary.setCreatedAt(LocalDateTime.now());
+        articleSummary.setUpdatedAt(LocalDateTime.now());
         return articleSummary;
     }
 
@@ -164,7 +167,9 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
         articleDetails.setContents(new ArticleQuery.ArticleContentInfo(title, body));
         articleDetails.setType(ArticleType.valueOf(type));
         articleDetails.setAuthor(new ArticleQuery.ArticleAuthor(1L, authorNickname, null, LocalDateTime.now(), LocalDateTime.now()));
-        articleDetails.setKeywords(List.of(new ArticleQuery.ArticleKeywordInfo()));
+        articleDetails.setKeywords(Collections.emptyList());
+        articleDetails.setCreatedAt(LocalDateTime.now());
+        articleDetails.setUpdatedAt(LocalDateTime.now());
         return articleDetails;
     }
 
@@ -174,6 +179,8 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
         articleActivity.setArticleId(articleId);
         articleActivity.setContents(new ArticleQuery.ArticleContentInfo(title, body));
         articleActivity.setArticleType(ArticleType.valueOf(articleType));
+        articleActivity.setCreatedAt(LocalDateTime.now());
+        articleActivity.setUpdatedAt(LocalDateTime.now());
         return articleActivity;
     }
 }

@@ -1,6 +1,6 @@
 package com.app.community.storage.db.query;
 
-import com.app.community.domain.agg.chat.ChatQuery.ChatInfo;
+import com.app.community.domain.agg.chat.ChatQuery.ChatSummary;
 import com.app.community.domain.agg.chat.ChatQuery.ChatMessageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface ChatMapper {
 
-    List<ChatInfo> findChatListByMemberId(
+    List<ChatSummary> findChatListByMemberId(
             @Param("memberId") Long memberId,
             @Param("size") int size,
             @Param("cursor") Long cursor
