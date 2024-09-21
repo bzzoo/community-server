@@ -15,13 +15,13 @@ import lombok.*;
 @Entity
 public class UpvoteEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long executorId;
     private Long targetId;
-    private UpvoteTargetType targetType;
 
+    @Enumerated(EnumType.STRING)
+    private UpvoteTargetType targetType;
 
     public Upvote toDomain() {
         UpvoteTarget upvoteTarget = new UpvoteTarget(targetId, targetType);

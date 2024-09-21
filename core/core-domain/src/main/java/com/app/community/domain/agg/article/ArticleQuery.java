@@ -1,65 +1,78 @@
 package com.app.community.domain.agg.article;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ArticleQuery {
 
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class ArticleDetails {
-        private final Long articleId;
-        private final String title;
-        private final String content;
-        private final ArticleType articleType;
-        private final Author author;
-        private final LocalDateTime createdAt;
-        private final LocalDateTime updatedAt;
-        private final List<ArticleKeywordInfo> keywordList;
+        private Long id;
+        private ArticleContentInfo contents;
+        private ArticleAuthor author;
+        private ArticleType type;
+        private List<ArticleKeywordInfo> keywords;
+        private LocalDateTime updatedAt;
+        private LocalDateTime createdAt;
     }
 
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
-    public static class ArticleInfo {
-        private final Long articleId;
-        private final String title;
-        private final String content;
-        private final ArticleType articleType;
-        private final Author author;
-        private final LocalDateTime createdAt;
-        private final LocalDateTime updatedAt;
-        private final List<ArticleKeywordInfo> keywordList;
+    public static class ArticleSummary {
+        private Long id;
+        private ArticleContentInfo contents;
+        private ArticleType type;
+        private ArticleAuthor author;
+        private List<ArticleKeywordInfo> keywords;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class Author {
-        private final Long memberId;
-        private final String nickname;
-        private final String profileImagePath;
-        private final LocalDateTime createdAt;
-        private final LocalDateTime updatedAt;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class ArticleKeywordInfo {
-        private final Long keywordId;
-        private final String keywordName;
-    }
-
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class ArticleActivity {
-        private final Long id;
-        private final Long articleId;
-        private final String title;
-        private final String content;
-        private final ArticleType articleType;
-        private final LocalDateTime createdAt;
-        private final LocalDateTime updatedAt;
+        private Long id;
+        private Long articleId;
+        private ArticleContentInfo contents;
+        private ArticleType articleType;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ArticleContentInfo {
+        private String title;
+        private String body;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ArticleKeywordInfo {
+        private Long id;
+        private String
+                name;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ArticleAuthor {
+        private Long id;
+        private String nickname;
+        private String profileImagePath;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
     }
 }

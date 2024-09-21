@@ -13,7 +13,7 @@ public class ChatReadService {
 
     private final ChatRepositoryForQuery chatRepositoryForQuery;
 
-    public List<ChatInfo> getChatListByMemberId(Long memberId, int size, Long cursor) {
+    public List<ChatSummary> getChatListByMemberId(Long memberId, int size, Long cursor) {
         return chatRepositoryForQuery.findChatListByMemberId(memberId, size, cursor);
     }
 

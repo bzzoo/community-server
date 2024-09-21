@@ -7,11 +7,10 @@ public class CommentRequests {
 
     public record NewCommentRequest(
             Long articleId,
-            String content,
+            String body,
             Long targetId,
             String targetType
     ){
-
         public CommentTarget toTarget(){
             CommentTargetType targetType = CommentTargetType.from(this.targetType);
             return new CommentTarget(targetId, targetType);
@@ -19,6 +18,8 @@ public class CommentRequests {
     }
 
     public record UpdateRequest(
-            String content
-    ){}
+            String body
+    ){
+
+    }
 }

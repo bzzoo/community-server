@@ -17,13 +17,13 @@ public class ArticleQueryController {
     private final ArticleReadService articleReadService;
 
     @GetMapping("")
-    ApiResponse<CursorResult<ArticleInfo>> getArticleList(
+    ApiResponse<CursorResult<ArticleSummary>> getArticleList(
             @RequestParam(name = "sz", required = false, defaultValue = "20") int size,
             @RequestParam(name = "cr", required = false, defaultValue = "-1") Long cursor,
             @RequestParam(name = "tp", required = false) String type
     ) {
         var articles = articleReadService.getLatestArticleList(size, cursor, ArticleType.from(type));
-        var cursorResult = CursorResult.of(articles, size, ArticleInfo::getArticleId);
+        var cursorResult = CursorResult.of(articles, size, ArticleSummary::getId);
         return ApiResponse.success(cursorResult);
     }
 

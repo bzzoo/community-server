@@ -9,15 +9,15 @@ public class Comment {
     private final Long id;
     private final Long writerId;
     private final Long articleId;
+    private String body;
     private final CommentTarget target;
-    private String content;
     private CommentStatus status;
 
     public Comment(
             Long id,
             Long writerId,
             Long articleId,
-            String content,
+            String body,
             CommentTarget target,
             CommentStatus status
     ) {
@@ -25,22 +25,22 @@ public class Comment {
         this.writerId = writerId;
         this.articleId = articleId;
         this.target = target;
-        this.content = content;
+        this.body = body;
         this.status = status;
     }
 
     public static Comment create(
             Long writerId,
             Long articleId,
-            String content,
+            String body,
             CommentTarget target
     ) {
-        return new Comment(null, writerId, articleId, content, target, CommentStatus.STEADY);
+        return new Comment(null, writerId, articleId, body, target, CommentStatus.STEADY);
     }
 
-    public void update(Long memberId, String content){
+    public void update(Long memberId, String body){
         validateWriter(memberId);
-        this.content = content;
+        this.body = body;
     }
 
     public void withdrawal(Long memberId){

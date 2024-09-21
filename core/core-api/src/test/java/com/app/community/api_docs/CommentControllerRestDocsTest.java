@@ -58,7 +58,7 @@ public class CommentControllerRestDocsTest extends RestDocsTest {
                                         .type(JsonFieldType.NUMBER)
                                         .description("아티클 ID")
                                         .attributes(key("constraints").value("댓글을 작성하는 아티클 ID")),
-                                fieldWithPath("content")
+                                fieldWithPath("body")
                                         .type(JsonFieldType.STRING)
                                         .description("댓글 내용")
                                         .attributes(key("constraints").value("최소 1자 이상, 200자 이하.")),
@@ -102,7 +102,7 @@ public class CommentControllerRestDocsTest extends RestDocsTest {
                                         .description("수정할 댓글의 ID")
                         ),
                         requestFields(
-                                fieldWithPath("content")
+                                fieldWithPath("body")
                                         .type(JsonFieldType.STRING)
                                         .description("수정된 댓글 내용")
                                         .attributes(key("constraints").value("최소 1자 이상, 200자 이하."))

@@ -12,15 +12,15 @@ import lombok.*;
 @Entity
 public class PointHistoryEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long fromMemberId;
     private Long toMemberId;
     private Integer fromMemberBalance;
     private Integer toMemberBalance;
-    private int amount;
+    private Integer amount;
     private Long referenceId;
+
     @Enumerated(EnumType.STRING)
     private PointReferenceType pointReferenceType;
     @Enumerated(EnumType.STRING)

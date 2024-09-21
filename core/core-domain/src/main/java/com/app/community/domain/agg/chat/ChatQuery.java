@@ -3,40 +3,51 @@ package com.app.community.domain.agg.chat;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class ChatQuery {
 
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
-    public static class ChatInfo {
-        private Long chatId;
+    public static class ChatSummary {
+        private Long id;
         private Participant sender;
         private Participant receiver;
-        private String lastMessages;
+        private String lastMessage;
         private LocalDateTime lastUpdatedAt;
-        private LocalDateTime createdAt;
-        private LocalDateTime endDate;
-
+        private ChatDateTimeInfo period;
     }
 
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class ChatMessageInfo {
+        private Long id;
         private Long chatId;
-        private Long messageId;
         private Participant sender;
-        private String content;
+        private String body;
         private LocalDateTime createdAt;
         private MessageType messageType;
         private Boolean isRead;
 
     }
 
-    @Getter
+    @Data
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Participant {
-        private Long memberId;
+        private Long id;
         private String nickname;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChatDateTimeInfo{
+        private LocalDateTime createdAt;
+        private LocalDateTime endDate;
     }
 }

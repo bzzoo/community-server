@@ -22,7 +22,7 @@ public class CommentCoreRepository implements CommentRepository {
                 comment.getId(),
                 comment.getArticleId(),
                 comment.getWriterId(),
-                comment.getContent(),
+                comment.getBody(),
                 comment.getTarget().targetId(),
                 comment.getTarget().type(),
                 comment.getStatus()

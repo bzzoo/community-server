@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface ArticleMapper {
 
-    List<ArticleInfo> findArticleList(
+    List<ArticleSummary> findArticleList(
             @Param("size") int size,
             @Param("cursor") Long cursor,
             @Param("type") ArticleType type

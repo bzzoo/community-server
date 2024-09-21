@@ -16,11 +16,11 @@ public class ArticleReadService {
         return articleRepositoryForQuery.findArticleDetails(articleId, memberId);
     }
 
-    public List<ArticleInfo> getLatestArticleList(int size, Long cursor, ArticleType type){
+    public List<ArticleSummary> getLatestArticleList(Integer size, Long cursor, ArticleType type){
         return articleRepositoryForQuery.findArticleList(size, cursor, type);
     }
 
-    public List<ArticleActivity> getArticleListByMemberId(int size, Long cursor, ArticleType type, Long memberId) {
+    public List<ArticleActivity> getArticleListByMemberId(Integer size, Long cursor, ArticleType type, Long memberId) {
         return articleRepositoryForQuery.findArticleListByMemberId(size, cursor, type, memberId);
     }
 }

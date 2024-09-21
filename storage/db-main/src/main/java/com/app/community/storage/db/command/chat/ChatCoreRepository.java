@@ -20,9 +20,9 @@ public class ChatCoreRepository implements ChatRepository {
                 chat.getId(),
                 chat.getParticipant().respondentId(),
                 chat.getParticipant().requesterId(),
-                chat.getStatus(),
                 chat.getChatDateTime().createdAt(),
-                chat.getChatDateTime().endAt()
+                chat.getChatDateTime().endAt(),
+                chat.getStatus()
         );
         return chatJpaRepository.save(chatEntity).toDomain();
     }

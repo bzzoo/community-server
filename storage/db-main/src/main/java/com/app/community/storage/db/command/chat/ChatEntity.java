@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "chats")
 @Entity
@@ -20,11 +20,21 @@ public class ChatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "respondent_id")
     private Long respondentId;
+
+    @Column(name = "requester_id")
     private Long requesterId;
-    private ChatStatus status;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "end_at")
     private LocalDateTime endAt;
+
+    @Enumerated(EnumType.STRING)
+    private ChatStatus status;
 
 
     public Chat toDomain() {

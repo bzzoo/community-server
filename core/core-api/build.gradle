@@ -41,14 +41,8 @@ asciidoctor {
         include ("**/index.adoc")
     }
     baseDirFollowsSourceFile()
+    attributes 'snippets': file('build/generated-snippets')
     dependsOn restDocsTest
 }
 
-bootJar {
-    dependsOn asciidoctor
-    print("${asciidoctor.outputDir}")
-    from("${asciidoctor.outputDir}") {
-        into 'src/main/resources/static/docs'
-    }
-}
 

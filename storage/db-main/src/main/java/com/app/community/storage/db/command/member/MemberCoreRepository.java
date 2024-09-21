@@ -16,21 +16,7 @@ public class MemberCoreRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        MemberEntity memberEntity = new MemberEntity(
-                member.getId(),
-                member.getProfile().email(),
-                member.getProfile().nickname().value(),
-                member.getProfile().profileImagePath(),
-                member.getProfile().memberSetting().chatPeePoint(),
-                member.getProfile().memberSetting().chatRefusal(),
-                member.getProfile().position(),
-                member.getGrade().value(),
-                member.getGrade().tier(),
-                member.getSocialInfo().socialId(),
-                member.getSocialInfo().memberSocialType(),
-                member.getStatus()
-        );
-        return memberJpaRepository.save(memberEntity).toDomain();
+        return memberJpaRepository.save(MemberEntity.fromDomain(member)).toDomain();
     }
 
 

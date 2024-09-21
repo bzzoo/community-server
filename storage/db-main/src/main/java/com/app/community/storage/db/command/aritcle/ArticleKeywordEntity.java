@@ -14,6 +14,10 @@ public class ArticleKeywordEntity extends AbstractEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "article_id")
     private Long articleId;
+
+    @Column(name = "keyword_id")
     private Long keywordId;
 }

@@ -3,20 +3,22 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="ArticleInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleInfo"/>
-        <typeAlias alias="ArticleDetails" type="com.app.community.domain.agg.article.ArticleQuery$ArticleDetails"/>
-        <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
-        <typeAlias alias="Author" type="com.app.community.domain.agg.article.ArticleQuery$Author"/>
+
+        <typeAlias alias="ArticleContentInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleContentInfo"/>
+        <typeAlias alias="ArticleAuthor" type="com.app.community.domain.agg.article.ArticleQuery$ArticleAuthor"/>
         <typeAlias alias="ArticleKeywordInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleKeywordInfo"/>
 
+        <typeAlias alias="ArticleSummary" type="com.app.community.domain.agg.article.ArticleQuery$ArticleSummary"/>
+        <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
+        <typeAlias alias="ArticleDetails" type="com.app.community.domain.agg.article.ArticleQuery$ArticleDetails"/>
 
-        <typeAlias alias="ChatInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatInfo"/>
+        <typeAlias alias="ChatSummary" type="com.app.community.domain.agg.chat.ChatQuery$ChatSummary"/>
         <typeAlias alias="ChatMessageInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatMessageInfo"/>
         <typeAlias alias="Participant" type="com.app.community.domain.agg.chat.ChatQuery$Participant"/>
+        <typeAlias alias="ChatDateTimeInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatDateTimeInfo"/>
 
-
-        <typeAlias alias="CommentInfo" type="com.app.community.domain.agg.comment.CommentQuery$CommentInfo"/>
+        <typeAlias alias="CommentDetails" type="com.app.community.domain.agg.comment.CommentQuery$CommentDetails"/>
         <typeAlias alias="ProfileComment" type="com.app.community.domain.agg.comment.CommentQuery$ProfileComment"/>
-        <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$Author"/>
+        <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$CommentAuthor"/>
     </typeAliases>
 </configuration>

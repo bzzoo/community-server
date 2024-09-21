@@ -16,12 +16,21 @@ public class ArticleEntity extends AbstractEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "writer_id")
     private Long writerId;
+
+    @Column(name = "title")
     private String title;
-    @Lob
-    private String content;
+
+    @Lob @Column(name = "body")
+    private String body;
+
+    @Column(name ="type")
     @Enumerated(EnumType.STRING)
     private ArticleType type;
+
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
 

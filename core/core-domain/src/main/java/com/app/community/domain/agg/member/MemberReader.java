@@ -1,5 +1,7 @@
 package com.app.community.domain.agg.member;
 
+import com.app.community.domain.support.error.DomainErrorType;
+import com.app.community.domain.support.error.DomainException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
