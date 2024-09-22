@@ -30,10 +30,6 @@ public class ArticleEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private ArticleType type;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private ArticleStatus status;
-
     @Column(name = "view_cnt")
     private int viewCount;
 
@@ -42,6 +38,10 @@ public class ArticleEntity extends AbstractEntity {
 
     @Column(name = "upvote_cnt")
     private int upvoteCount;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus status;
 
     @PrePersist
     public void prePersist() {

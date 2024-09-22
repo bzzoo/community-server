@@ -41,7 +41,6 @@ asciidoctor {
         include ("**/index.adoc")
     }
     baseDirFollowsSourceFile()
-    attributes 'snippets': file('build/generated-snippets')
     dependsOn restDocsTest
 }
 

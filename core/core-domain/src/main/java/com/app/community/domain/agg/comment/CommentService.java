@@ -29,5 +29,6 @@ public class CommentService {
     public void delete(LoginMember member, Long commentId) {
         Comment comment = commentReader.getById(commentId);
         commentWriter.delete(member, comment);
+        articleSimpleCacheUpdater.decreaseCommentCnt(comment.getArticleId());
     }
 }

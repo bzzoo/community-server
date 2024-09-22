@@ -14,10 +14,12 @@ public class ArticleSimpleCacheUpdater {
     }
 
     public void increaseCommentCnt(Long articleId) {
-        articleRepository.updateViewCount(articleId, 1);
+        articleRepository.updateCommentCount(articleId, 1);
     }
 
     public void increaseUpvoteCnt(Long articleId) {
         articleRepository.updateViewCount(articleId, 1);
     }
+
+    public void decreaseCommentCnt(Long articleId) {articleRepository.updateCommentCount(articleId, -1);}
 }

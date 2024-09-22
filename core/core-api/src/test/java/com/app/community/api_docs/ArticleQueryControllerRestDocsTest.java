@@ -75,7 +75,10 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
                                 fieldWithPath("data.content[].keywords[].id").type(JsonFieldType.NUMBER).description("키워드 ID"),
                                 fieldWithPath("data.content[].keywords[].name").type(JsonFieldType.STRING).description("키워드 이름"),
                                 fieldWithPath("data.content[].createdAt").type(JsonFieldType.STRING).description("작성 시간"),
-                                fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).description("수정 시간")
+                                fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).description("수정 시간"),
+                                fieldWithPath("data.content[].viewCount").type(JsonFieldType.NUMBER).description("조회 수"),
+                                fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
+                                fieldWithPath("data.content[].upvoteCount").type(JsonFieldType.NUMBER).description("추천 수")
                         )));
     }
 
@@ -110,7 +113,10 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
                                 fieldWithPath("data.keywords[].id").type(JsonFieldType.NUMBER).description("키워드 ID"),
                                 fieldWithPath("data.keywords[].name").type(JsonFieldType.STRING).description("키워드 이름"),
                                 fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성 시간"),
-                                fieldWithPath("data.updatedAt").type(JsonFieldType.STRING).description("수정 시간")
+                                fieldWithPath("data.updatedAt").type(JsonFieldType.STRING).description("수정 시간"),
+                                fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("조회 수"),
+                                fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
+                                fieldWithPath("data.upvoteCount").type(JsonFieldType.NUMBER).description("추천 수")
                         )));
     }
 
@@ -138,11 +144,10 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
                                 fieldWithPath("result").type(JsonFieldType.STRING).description("성공 여부"),
                                 fieldWithPath("data.nextCursor").type(JsonFieldType.NUMBER).optional().description("다음 페이지 시작 대상 ID"),
                                 fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
-                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("아티클 활동 ID"),
-                                fieldWithPath("data.content[].articleId").type(JsonFieldType.NUMBER).description("아티클 ID"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("아티클 ID"),
                                 fieldWithPath("data.content[].contents.title").type(JsonFieldType.STRING).description("아티클 제목"),
                                 fieldWithPath("data.content[].contents.body").type(JsonFieldType.STRING).description("아티클 본문"),
-                                fieldWithPath("data.content[].articleType").type(JsonFieldType.STRING).description("아티클 유형"),
+                                fieldWithPath("data.content[].type").type(JsonFieldType.STRING).description("아티클 유형"),
                                 fieldWithPath("data.content[].createdAt").type(JsonFieldType.STRING).description("작성 시간"),
                                 fieldWithPath("data.content[].updatedAt").type(JsonFieldType.STRING).description("마지막 수정 시간")
                         )));
@@ -158,6 +163,9 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
         articleSummary.setKeywords(Collections.emptyList());
         articleSummary.setCreatedAt(LocalDateTime.now());
         articleSummary.setUpdatedAt(LocalDateTime.now());
+        articleSummary.setViewCount(0);
+        articleSummary.setUpvoteCount(0);
+        articleSummary.setCommentCount(0);
         return articleSummary;
     }
 
@@ -170,15 +178,18 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
         articleDetails.setKeywords(Collections.emptyList());
         articleDetails.setCreatedAt(LocalDateTime.now());
         articleDetails.setUpdatedAt(LocalDateTime.now());
+        articleDetails.setViewCount(0);
+        articleDetails.setUpvoteCount(0);
+        articleDetails.setCommentCount(0);
         return articleDetails;
     }
 
     private ArticleQuery.ArticleActivity createArticleActivity(Long id, Long articleId, String title, String body, String articleType) {
         ArticleQuery.ArticleActivity articleActivity = new ArticleQuery.ArticleActivity();
         articleActivity.setId(id);
-        articleActivity.setArticleId(articleId);
+        articleActivity.setId(articleId);
         articleActivity.setContents(new ArticleQuery.ArticleContentInfo(title, body));
-        articleActivity.setArticleType(ArticleType.valueOf(articleType));
+        articleActivity.setType(ArticleType.valueOf(articleType));
         articleActivity.setCreatedAt(LocalDateTime.now());
         articleActivity.setUpdatedAt(LocalDateTime.now());
         return articleActivity;

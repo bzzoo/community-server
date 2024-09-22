@@ -39,7 +39,7 @@ public class ArticleCoreRepository implements ArticleRepository {
 
     @Override
     public void updateViewCount(Long articleId, int value) {
-        articleJpaRepository.incrementViewCount(articleId, value);
+        articleJpaRepository.increViewCount(articleId, value);
     }
 
     @Override

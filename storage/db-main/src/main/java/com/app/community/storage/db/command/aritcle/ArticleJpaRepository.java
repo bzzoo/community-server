@@ -10,7 +10,7 @@ public interface ArticleJpaRepository extends JpaRepository<ArticleEntity, Long>
     @Modifying
     @Transactional
     @Query("UPDATE ArticleEntity a SET a.viewCount = a.viewCount + :increment WHERE a.id = :articleId")
-    void incrementViewCount(Long articleId, int increment);
+    void increViewCount(Long articleId, int increment);
 
     @Modifying
     @Transactional
