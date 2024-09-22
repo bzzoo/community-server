@@ -27,4 +27,5 @@ public class UpvoteCoreRepository implements UpvoteRepository {
     public boolean findByExecutorIdAndTarget(Long executorId, UpvoteTarget target) {
         return upvoteJpaRepository.existsByExecutorIdAndTargetIdAndTargetType(executorId, target.targetId(), target.targetType());
     }
+
 }

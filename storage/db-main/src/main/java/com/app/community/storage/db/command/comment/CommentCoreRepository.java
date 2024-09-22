@@ -1,6 +1,5 @@
 package com.app.community.storage.db.command.comment;
 
-
 import com.app.community.domain.agg.comment.Comment;
 import com.app.community.domain.agg.comment.CommentRepository;
 import com.app.community.domain.agg.comment.CommentStatus;
@@ -8,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
 
 @RequiredArgsConstructor
 @Repository
@@ -18,16 +16,7 @@ public class CommentCoreRepository implements CommentRepository {
 
     @Override
     public Comment save(Comment comment) {
-        CommentEntity commentEntity = new CommentEntity(
-                comment.getId(),
-                comment.getArticleId(),
-                comment.getWriterId(),
-                comment.getBody(),
-                comment.getTarget().targetId(),
-                comment.getTarget().type(),
-                comment.getStatus()
-        );
-        return commentJpaRepository.save(commentEntity).toDomain();
+        return commentJpaRepository.save(CommentEntity.fromDomain(comment)).toDomain();
     }
 
     @Override
@@ -38,5 +27,10 @@ public class CommentCoreRepository implements CommentRepository {
     @Override
     public Boolean existsByArticleId(Long articleId) {
         return commentJpaRepository.existsByArticleIdAndStatus(articleId, CommentStatus.STEADY);
+    }
+
+    @Override
+    public void updateUpvoteCount(Long commentId, int value) {
+        commentJpaRepository.incrementUpvote(commentId, value);
     }
 }

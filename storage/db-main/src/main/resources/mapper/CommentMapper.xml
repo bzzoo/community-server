@@ -9,6 +9,7 @@
             c.body,
             c.status,
             c.created_at as createdAt,
+            c.upvote_cnt as upvoteCount
             m.id as writerId,
             m.nickname,
             m.created_at as memberCreatedAt,
