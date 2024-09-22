@@ -2,11 +2,16 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+    <settings>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="returnInstanceForEmptyRow" value="true"/>
+    </settings>
     <typeAliases>
-
-        <typeAlias alias="ArticleContentInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleContentInfo"/>
+        <typeAlias alias="ArticleContentInfo"
+                   type="com.app.community.domain.agg.article.ArticleQuery$ArticleContentInfo"/>
         <typeAlias alias="ArticleAuthor" type="com.app.community.domain.agg.article.ArticleQuery$ArticleAuthor"/>
-        <typeAlias alias="ArticleKeywordInfo" type="com.app.community.domain.agg.article.ArticleQuery$ArticleKeywordInfo"/>
+        <typeAlias alias="ArticleKeywordInfo"
+                   type="com.app.community.domain.agg.article.ArticleQuery$ArticleKeywordInfo"/>
 
         <typeAlias alias="ArticleSummary" type="com.app.community.domain.agg.article.ArticleQuery$ArticleSummary"/>
         <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
@@ -21,4 +26,7 @@
         <typeAlias alias="ProfileComment" type="com.app.community.domain.agg.comment.CommentQuery$ProfileComment"/>
         <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$CommentAuthor"/>
     </typeAliases>
+
 </configuration>
+
+
