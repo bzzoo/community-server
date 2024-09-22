@@ -26,7 +26,7 @@ public class ArticleEntity extends AbstractEntity {
     @Lob @Column(name = "body")
     private String body;
 
-    @Column(name ="type")
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private ArticleType type;
 
@@ -34,4 +34,19 @@ public class ArticleEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
 
+    @Column(name = "view_cnt")
+    private int viewCount;
+
+    @Column(name = "comment_cnt")
+    private int commentCount;
+
+    @Column(name = "upvote_cnt")
+    private int upvoteCount;
+
+    @PrePersist
+    public void prePersist() {
+        this.viewCount = 0;
+        this.commentCount = 0;
+        this.upvoteCount = 0;
+    }
 }

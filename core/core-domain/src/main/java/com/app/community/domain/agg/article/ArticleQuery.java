@@ -21,6 +21,9 @@ public class ArticleQuery {
         private List<ArticleKeywordInfo> keywords;
         private LocalDateTime updatedAt;
         private LocalDateTime createdAt;
+        private Integer viewCount;
+        private Integer commentCount;
+        private Integer upvoteCount;
     }
 
     @Data
@@ -34,6 +37,9 @@ public class ArticleQuery {
         private List<ArticleKeywordInfo> keywords;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+        private Integer viewCount;
+        private Integer commentCount;
+        private Integer upvoteCount;
     }
 
     @Data
@@ -41,9 +47,8 @@ public class ArticleQuery {
     @AllArgsConstructor
     public static class ArticleActivity {
         private Long id;
-        private Long articleId;
         private ArticleContentInfo contents;
-        private ArticleType articleType;
+        private ArticleType type;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
@@ -61,8 +66,7 @@ public class ArticleQuery {
     @AllArgsConstructor
     public static class ArticleKeywordInfo {
         private Long id;
-        private String
-                name;
+        private String name;
     }
 
     @Data
