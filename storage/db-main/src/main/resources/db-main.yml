@@ -4,11 +4,18 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.default_batch_fetch_size: 100
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 100
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 ---
 spring.config.activate.on-profile: local
 

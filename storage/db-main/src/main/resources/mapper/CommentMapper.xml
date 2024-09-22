@@ -6,16 +6,17 @@
         SELECT
             c.id,
             c.article_id as articleId,
-            c.parent_comment_id as parentId,
             c.body,
             c.status,
             c.created_at as createdAt,
+            c.upvote_cnt as upvoteCount
             m.id as writerId,
             m.nickname,
             m.created_at as memberCreatedAt,
             m.updated_at as memberUpdatedAt,
             ch.id as childId,
-            ch.content as childBody,
+            ch.parent_comment_id as parentId,
+            ch.body as childBody,
             ch.created_at as childCreatedAt,
             ch.updated_at as childUpdatedAt,
             ch.status as childStatus,
@@ -27,7 +28,7 @@
         FROM
             comments c
         LEFT JOIN members m ON c.writer_id = m.id
-        LEFT JOIN comments ch ON c.parent_comment_id = ch.id
+        LEFT JOIN comments ch ON c.id = ch.parent_comment_id
         LEFT JOIN members cm ON c.writer_id = cm.id
         WHERE
             c.article_id = #{articleId}
@@ -36,7 +37,7 @@
             AND c.id &lt; #{cursor}
         </if>
         ORDER BY c.created_at ASC
-        LIMIT 41
+        LIMIT #{size}
     </select>
 
     <!-- 회원의 답글 목록 조회 -->
@@ -45,8 +46,7 @@
             c.id as id,
             c.article_id as articleId,
             a.title as articleTitle,
-            c.body,
-            c.status,
+            c.body as childBody,
             c.created_at as createdAt,
             c.updated_at as updatedAt
         FROM
@@ -59,14 +59,13 @@
             AND c.id &lt; #{cursor}
         </if>
         ORDER BY c.id DESC
-        LIMIT 20
+        LIMIT #{size}
     </select>
 
     <resultMap id="CommentDetailsMap" type="CommentDetails">
         <id column="id" property="id"/>
         <result column="articleId" property="articleId"/>
-        <result column="parentId" property="parentId"/>
-        <result column="body" property="content"/>
+        <result column="body" property="body"/>
         <result column="status" property="status"/>
         <result column="createdAt" property="createdAt"/>
         <result column="updatedAt" property="updatedAt"/>
@@ -81,8 +80,9 @@
 
         <collection property="children" ofType="CommentDetails">
             <id column="childId" property="id"/>
+            <result column="parentId" property="parentId"/>
             <result column="articleId" property="articleId"/>
-            <result column="childBody" property="content"/>
+            <result column="childBody" property="body"/>
             <result column="childStatus" property="status"/>
             <result column="childCreatedAt" property="createdAt"/>
             <result column="childUpdatedAt" property="updatedAt"/>
@@ -102,8 +102,7 @@
         <id column="id" property="commentId"/>
         <result column="articleId" property="articleId"/>
         <result column="articleTitle" property="articleTitle"/>
-        <result column="content" property="content"/>
-        <result column="status" property="status"/>
+        <result column="commentBody" property="commentBody"/>
         <result column="createdAt" property="createdAt"/>
         <result column="updatedAt" property="updatedAt"/>
     </resultMap>

@@ -27,7 +27,7 @@ public class MemberControllerRestDocsTest extends RestDocsTest {
     public void setUp() {
         memberService = mock(MemberService.class);
         memberController = new MemberController(memberService);
-        mockMvc = mockController(memberController); // RestDocsTest 클래스에서 제공하는 mockController 메서드 사용
+        mockMvc = mockController(memberController);
     }
 
     @Test

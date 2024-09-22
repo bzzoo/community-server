@@ -31,11 +31,32 @@ public class CommentEntity extends AbstractEntity {
     @Column(name = "parent_comment_id")
     private Long parentCommentId;
 
+    @Column(name = "upvote_cnt")
+    private Integer upvoteCount;
+
     @Enumerated(EnumType.STRING)
     private CommentTargetType targetType;
 
     @Enumerated(EnumType.STRING)
     private CommentStatus status;
+
+
+    @PrePersist
+    public void prePersist() {
+        this.upvoteCount = 0;
+    }
+
+    public static CommentEntity fromDomain(Comment comment){
+        return CommentEntity.builder()
+                .id(comment.getId())
+                .articleId(comment.getArticleId())
+                .writerId(comment.getWriterId())
+                .body(comment.getBody())
+                .parentCommentId(comment.getTarget().targetId())
+                .targetType( comment.getTarget().type())
+                .status(comment.getStatus())
+                .build();
+    }
 
     public Comment toDomain() {
         CommentTarget commentTarget = (articleId.equals(parentCommentId))

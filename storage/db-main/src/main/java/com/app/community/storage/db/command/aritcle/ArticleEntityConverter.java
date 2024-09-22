@@ -13,14 +13,14 @@ public class ArticleEntityConverter {
     public static ArticleEntity toEntity(Article article) {
         if (article == null) return null;
 
-        return new ArticleEntity(
-                article.getId(),
-                article.getWriterId(),
-                article.getContent().title(),
-                article.getContent().body(),
-                article.getType(),
-                article.getStatus()
-        );
+        return ArticleEntity.builder()
+                .id(article.getId())
+                .writerId(article.getWriterId())
+                .title(article.getContent().title())
+                .body(article.getContent().body())
+                .type(article.getType())
+                .status(article.getStatus())
+                .build();
     }
 
     public static List<ArticleKeywordEntity> toKeywordEntities(ArticleKeywordList tags, Long articleId) {

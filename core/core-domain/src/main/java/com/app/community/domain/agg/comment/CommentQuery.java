@@ -22,6 +22,7 @@ public class CommentQuery {
         private List<CommentDetails> children;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+        private Integer upvoteCount;
     }
 
     @Data

@@ -11,8 +11,10 @@ import java.util.List;
 public class ArticleReadService {
 
     private final ArticleRepositoryForQuery articleRepositoryForQuery;
+    private final ArticleSimpleCacheUpdater simpleCacheUpdater;
 
     public ArticleDetails getArticleDetails(Long articleId, Long memberId){
+        simpleCacheUpdater.increaseViewCnt(articleId);
         return articleRepositoryForQuery.findArticleDetails(articleId, memberId);
     }
 

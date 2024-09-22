@@ -12,6 +12,9 @@
             a.type,
             a.created_at AS articleCreatedAt,
             a.updated_at AS articleUpdatedAt,
+            a.view_cnt AS viewCount,
+            a.comment_cnt AS commentCount,
+            a.upvote_cnt AS upvoteCount,
             m.id AS writerId,
             m.nickname,
             m.profile_image_path AS profileImagePath,
@@ -25,9 +28,9 @@
         LEFT JOIN article_keywords ak ON ak.article_id = a.id
         LEFT JOIN keywords k ON ak.keyword_id = k.id
         WHERE
-        a.status = 'STEADY'
-        <if test="cursor != null and cursor != -1">
-            AND a.id &lt; #{cursor}
+            a.status = 'STEADY'
+        <if test="cursor != -1 and cursor != null">
+            AND a.id <![CDATA[<]]> #{cursor}
         </if>
         <if test="type != null">
             AND a.type = #{type}
@@ -45,6 +48,9 @@
             a.type,
             a.created_at AS articleCreatedAt,
             a.updated_at AS articleUpdatedAt,
+            a.view_cnt AS viewCount,
+            a.comment_cnt AS commentCount,
+            a.upvote_cnt AS upvoteCount,
             m.id AS writerId,
             m.nickname,
             m.profile_image_path AS profileImagePath,
@@ -65,7 +71,7 @@
     <!-- 회원별 게시글 리스트 조회 -->
     <select id="findArticleListByMemberId" resultMap="ArticleActivityMap">
         SELECT
-            a.id AS articleId,
+            a.id,
             a.title,
             a.body,
             a.type,
@@ -76,8 +82,8 @@
         WHERE
             a.status = 'STEADY'
         AND a.writer_id = #{memberId}
-        <if test="cursor != null and cursor != -1">
-            AND a.id &lt; #{cursor}
+        <if test="cursor != -1">
+            AND a.id <![CDATA[<]]> #{cursor}
         </if>
         <if test="type != null">
             AND a.type = #{type}
@@ -93,8 +99,12 @@
 
         <result column="articleCreatedAt" property="createdAt"/>
         <result column="articleUpdatedAt" property="updatedAt"/>
+        <result column="viewCount" property="viewCount"/>
+        <result column="commentCount" property="commentCount"/>
+        <result column="upvoteCount" property="upvoteCount"/>
 
-        <association property="content" javaType="ArticleContentInfo">
+
+        <association property="contents" javaType="ArticleContentInfo">
             <result column="title" property="title"/>
             <result column="body" property="body"/>
         </association>
@@ -119,7 +129,11 @@
         <result column="type" property="type"/>
         <result column="articleCreatedAt" property="createdAt"/>
         <result column="articleUpdatedAt" property="updatedAt"/>
-        <association property="content" javaType="ArticleContentInfo">
+        <result column="viewCount" property="viewCount"/>
+        <result column="commentCount" property="commentCount"/>
+        <result column="upvoteCount" property="upvoteCount"/>
+
+        <association property="contents" javaType="ArticleContentInfo">
             <result column="title" property="title"/>
             <result column="body" property="body"/>
         </association>
@@ -138,10 +152,10 @@
 
     <resultMap id="ArticleActivityMap" type="ArticleActivity">
         <id column="id" property="id"/>
-        <result column="articleType" property="articleType"/>
+        <result column="type" property="type"/>
         <result column="createdAt" property="createdAt"/>
         <result column="updatedAt" property="updatedAt"/>
-        <association property="contentInfo" javaType="ArticleContentInfo">
+        <association property="contents" javaType="ArticleContentInfo">
             <result column="title" property="title"/>
             <result column="body" property="body"/>
         </association>

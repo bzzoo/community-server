@@ -36,4 +36,19 @@ public class ArticleCoreRepository implements ArticleRepository {
 
         return ArticleEntityConverter.toDomain(articlePs, articleKeywordsPs);
     }
+
+    @Override
+    public void updateViewCount(Long articleId, int value) {
+        articleJpaRepository.increViewCount(articleId, value);
+    }
+
+    @Override
+    public void updateCommentCount(Long articleId, int value) {
+        articleJpaRepository.incrementCommentCount(articleId, value);
+    }
+
+    @Override
+    public void updateUpvoteCount(Long articleId, int value) {
+        articleJpaRepository.incrementUpvoteCount(articleId, value);
+    }
 }
