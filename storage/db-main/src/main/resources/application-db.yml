@@ -1,0 +1,50 @@
+spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 100
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+---
+spring.config.activate.on-profile: local
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    platform: h2
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+
+---
+spring.config.activate.on-profile: local-dev
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+storage:
+  datasource:
+    core:
+      jdbc-url: jdbc:mysql://localhost:3306/${LOCAL_DB_NAME}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${LOCAL_DB_USERNAME}
+      password: ${LOCAL_DB_PASSWORD}
+      data-source-properties:
+        rewriteBatchedStatements: true

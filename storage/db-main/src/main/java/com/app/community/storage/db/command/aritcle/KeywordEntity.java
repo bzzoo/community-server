@@ -1,7 +1,7 @@
 package com.app.community.storage.db.command.aritcle;
 
-import com.app.community.domain.agg.article.Keyword;
-import com.app.community.domain.agg.article.KeywordName;
+import com.app.community.domain.model.article.Keyword;
+import com.app.community.domain.model.article.KeywordName;
 import com.app.community.storage.db.command.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;

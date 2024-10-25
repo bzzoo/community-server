@@ -1,6 +1,6 @@
 package com.app.community.storage.db.command.member;
 
-import com.app.community.domain.agg.member.MemberSocialType;
+import com.app.community.domain.model.member.MemberSocialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,9 +1,8 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.ChatQueryController;
-import com.app.community.domain.agg.chat.ChatQuery.*;
-import com.app.community.domain.agg.chat.ChatReadService;
-import com.app.community.domain.agg.chat.MessageType;
+import com.app.community.api.controller.ChatQueryController;
+import com.app.community.domain.query.ChatQueryService;
+import com.app.community.domain.model.chat.MessageType;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,13 +26,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.queryPar
 
 public class ChatQueryControllerRestDocsTest extends RestDocsTest {
 
-    private ChatReadService chatReadService;
+    private ChatQueryService chatQueryService;
     private ChatQueryController chatQueryController;
 
     @BeforeEach
     public void setUp() {
-        chatReadService = mock(ChatReadService.class);
-        chatQueryController = new ChatQueryController(chatReadService);
+        chatQueryService = mock(ChatQueryService.class);
+        chatQueryController = new ChatQueryController(chatQueryService);
         mockMvc = mockController(chatQueryController);
     }
 
@@ -46,7 +45,7 @@ public class ChatQueryControllerRestDocsTest extends RestDocsTest {
                         new ChatDateTimeInfo(LocalDateTime.now(), LocalDateTime.now()))
         );
 
-        when(chatReadService.getChatListByMemberId(any(), anyInt(), any()))
+        when(chatQueryService.getChatListByMemberId(any(), anyInt(), any()))
                 .thenReturn(chatList);
 
         given()
@@ -91,7 +90,7 @@ public class ChatQueryControllerRestDocsTest extends RestDocsTest {
                 new ChatMessageInfo(2L, 1L, new Participant(2L, "user2"), "메시지 본문2", LocalDateTime.now(), MessageType.MESSAGE, false)
         );
 
-        when(chatReadService.getChatMessageList(any(), anyLong(), anyInt(), any()))
+        when(chatQueryService.getChatMessageList(any(), anyLong(), anyInt(), any()))
                 .thenReturn(chatMessages);
 
         given()

@@ -1,9 +1,9 @@
 package com.app.community.storage.db.command.chat;
 
-import com.app.community.domain.agg.chat.Chat;
-import com.app.community.domain.agg.chat.ChatDateTime;
-import com.app.community.domain.agg.chat.ChatParticipant;
-import com.app.community.domain.agg.chat.ChatStatus;
+import com.app.community.domain.model.chat.Chat;
+import com.app.community.domain.model.chat.ChatDateTime;
+import com.app.community.domain.model.chat.ChatParticipant;
+import com.app.community.domain.model.chat.ChatStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

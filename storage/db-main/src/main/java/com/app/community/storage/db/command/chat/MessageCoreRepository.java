@@ -1,8 +1,8 @@
 package com.app.community.storage.db.command.chat;
 
 
-import com.app.community.domain.agg.chat.Message;
-import com.app.community.domain.agg.chat.MessageRepository;
+import com.app.community.domain.model.chat.Message;
+import com.app.community.domain.model.chat.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

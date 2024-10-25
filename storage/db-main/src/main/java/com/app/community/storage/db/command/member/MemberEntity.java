@@ -1,6 +1,6 @@
 package com.app.community.storage.db.command.member;
 
-import com.app.community.domain.agg.member.*;
+import com.app.community.domain.model.member.*;
 import com.app.community.storage.db.command.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;

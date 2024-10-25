@@ -1,10 +1,10 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.ChatController;
-import com.app.community.controller.request.ChatRequests.ChatRequest;
-import com.app.community.domain.agg.chat.ChatService;
-import com.app.community.domain.agg.chat.Chat;
-import com.app.community.domain.agg.chat.ChatStatus;
+import com.app.community.api.controller.ChatController;
+import com.app.community.api.controller.request.ChatRequests.CheckoutRequest;
+import com.app.community.domain.model.chat.ChatService;
+import com.app.community.domain.model.chat.Chat;
+import com.app.community.domain.model.chat.ChatStatus;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,9 +33,9 @@ public class ChatControllerRestDocsTest extends RestDocsTest {
 
     @Test
     void createOrGetChat() {
-        ChatRequest request = new ChatRequest(1L, 2L, 30);
+        CheckoutRequest request = new CheckoutRequest(1L, 2L, 30);
         Chat chat = new Chat(1L, null, null, ChatStatus.PROGRESS);
-        when(chatService.requestChat(any(), any())).thenReturn(chat);
+        when(chatService.checkoutChat(any(), any(), request.amount(), request.period())).thenReturn(chat);
 
         given().contentType(ContentType.JSON)
                 .header("Authorization", "Bearer token")

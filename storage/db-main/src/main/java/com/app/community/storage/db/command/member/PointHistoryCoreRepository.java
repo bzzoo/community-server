@@ -1,12 +1,9 @@
 package com.app.community.storage.db.command.member;
 
-import com.app.community.domain.agg.point.PointHistory;
-import com.app.community.domain.agg.point.PointHistoryRepository;
+import com.app.community.domain.model.point.PointHistory;
+import com.app.community.domain.model.point.PointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository

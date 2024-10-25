@@ -1,9 +1,9 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.CommentController;
-import com.app.community.controller.request.CommentRequests.NewCommentRequest;
-import com.app.community.controller.request.CommentRequests.UpdateRequest;
-import com.app.community.domain.agg.comment.CommentService;
+import com.app.community.api.controller.CommentController;
+import com.app.community.api.controller.request.CommentRequests.NewCommentRequest;
+import com.app.community.api.controller.request.CommentRequests.UpdateRequest;
+import com.app.community.domain.model.comment.CommentService;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;

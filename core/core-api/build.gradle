@@ -27,21 +27,21 @@ dependencies {
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
-tasks.register('restDocsTest', Test) {
-    group = 'verification'
-    useJUnitPlatform {
-        includeTags('restdocs')
-    }
-}
-
-asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    sources {
-        include ("**/index.adoc")
-    }
-    baseDirFollowsSourceFile()
-    dependsOn restDocsTest
-}
+//tasks.register('restDocsTest', Test) {
+//    group = 'verification'
+//    useJUnitPlatform {
+//        includeTags('restdocs')
+//    }
+//}
+//
+//asciidoctor {
+//    inputs.dir snippetsDir
+//    configurations 'asciidoctorExt'
+//    sources {
+//        include ("**/index.adoc")
+//    }
+//    baseDirFollowsSourceFile()
+//    dependsOn restDocsTest
+//}
 
 

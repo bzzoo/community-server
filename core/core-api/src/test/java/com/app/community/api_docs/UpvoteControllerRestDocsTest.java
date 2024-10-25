@@ -1,10 +1,10 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.UpvoteController;
-import com.app.community.controller.request.UpvoteRequests.UpvotedRequest;
-import com.app.community.domain.agg.upvote.UpvoteService;
-import com.app.community.domain.agg.upvote.UpvoteTarget;
-import com.app.community.domain.agg.upvote.UpvoteTargetType;
+import com.app.community.api.controller.UpvoteController;
+import com.app.community.api.controller.request.UpvoteRequests.UpvotedRequest;
+import com.app.community.domain.model.upvote.UpvoteService;
+import com.app.community.domain.model.upvote.UpvoteTarget;
+import com.app.community.domain.model.upvote.UpvoteTargetType;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;

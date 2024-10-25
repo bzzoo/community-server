@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+import javax.sql.DataSource;
 
 @Configuration
 class CoreDataSourceConfig {
@@ -20,5 +23,4 @@ class CoreDataSourceConfig {
     public HikariDataSource coreDataSource(@Qualifier("coreHikariConfig") HikariConfig config) {
         return new HikariDataSource(config);
     }
-
 }

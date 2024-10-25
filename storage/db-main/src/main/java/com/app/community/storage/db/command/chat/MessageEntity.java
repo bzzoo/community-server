@@ -1,7 +1,7 @@
 package com.app.community.storage.db.command.chat;
 
-import com.app.community.domain.agg.chat.Message;
-import com.app.community.domain.agg.chat.MessageType;
+import com.app.community.domain.model.chat.Message;
+import com.app.community.domain.model.chat.MessageType;
 import com.app.community.storage.db.command.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;

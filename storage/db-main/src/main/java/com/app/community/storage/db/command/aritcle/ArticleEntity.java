@@ -1,7 +1,9 @@
 package com.app.community.storage.db.command.aritcle;
 
-import com.app.community.domain.agg.article.ArticleStatus;
-import com.app.community.domain.agg.article.ArticleType;
+import com.app.community.domain.model.article.Article;
+import com.app.community.domain.model.article.ArticleContent;
+import com.app.community.domain.model.article.ArticleStatus;
+import com.app.community.domain.model.article.ArticleType;
 import com.app.community.storage.db.command.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +16,8 @@ import lombok.*;
 @Entity
 public class ArticleEntity extends AbstractEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "writer_id")
@@ -23,7 +26,8 @@ public class ArticleEntity extends AbstractEntity {
     @Column(name = "title")
     private String title;
 
-    @Lob @Column(name = "body")
+    @Lob
+    @Column(name = "body")
     private String body;
 
     @Column(name = "type")
@@ -48,5 +52,9 @@ public class ArticleEntity extends AbstractEntity {
         this.viewCount = 0;
         this.commentCount = 0;
         this.upvoteCount = 0;
+    }
+
+    public Article toDomain() {
+        return new Article(id, writerId, new ArticleContent(title, body), type, status, null);
     }
 }

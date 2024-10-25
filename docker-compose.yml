@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # MySQL 컨테이너 설정
+  mysql:
+    image: mysql:8.0.22
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: community
+    ports:
+      - "3306:3306"
+    networks:
+      - community-network
+
+  # Spring Boot 애플리케이션 컨테이너 설정
+  community-app:
+    image: test:latest
+    container_name: community-app
+    environment:
+      LOCAL_DB_NAME: community
+      LOCAL_DB_USERNAME: root
+      LOCAL_DB_PASSWORD: root
+      OAUTH_CLIENT_ID: 0bb8b2467b95230fe1f9b959758428b1
+      OAUTH_CLIENT_SECRET: BihBWJYa4dMxrrVNeXaLKrcnsjWtmrN7
+    ports:
+      - "8080:8080"
+    networks:
+      - community-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+networks:
+  community-network:
+    driver: bridge
