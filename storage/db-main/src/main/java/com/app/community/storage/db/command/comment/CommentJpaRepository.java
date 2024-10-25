@@ -1,6 +1,6 @@
 package com.app.community.storage.db.command.comment;
 
-import com.app.community.domain.agg.comment.CommentStatus;
+import com.app.community.domain.model.comment.CommentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

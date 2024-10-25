@@ -2,74 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.community.storage.db.query.CommentMapper">
 
+    <select id="findById" resultMap="CommentDetailsMap">
+        SELECT c.id,
+               c.article_id         AS articleId,
+               c.body,
+               c.status,
+               c.created_at         AS createdAt,
+               c.upvote_cnt         AS upvoteCount,
+               c.parent_comment_id  AS parentId,
+               c.target_type        AS targetType,
+               m.id                 AS writerId,
+               m.nickname,
+               m.profile_image_path AS profileImagePath,
+               m.created_at         AS memberCreatedAt,
+               m.updated_at         AS memberUpdatedAt
+        FROM comments c
+                 LEFT JOIN members m ON m.id = c.writer_id
+        WHERE c.id = #{commentId};
+    </select>
+
     <select id="findCommentListByArticleId" resultMap="CommentDetailsMap">
-        SELECT
-            c.id,
-            c.article_id as articleId,
-            c.body,
-            c.status,
-            c.created_at as createdAt,
-            c.upvote_cnt as upvoteCount
-            m.id as writerId,
-            m.nickname,
-            m.created_at as memberCreatedAt,
-            m.updated_at as memberUpdatedAt,
-            ch.id as childId,
-            ch.parent_comment_id as parentId,
-            ch.body as childBody,
-            ch.created_at as childCreatedAt,
-            ch.updated_at as childUpdatedAt,
-            ch.status as childStatus,
-            cm.id as childWriterId,
-            cm.nickname as childWriterNickname,
-            cm.profile_image_path as childWriterProfileImagePath,
-            cm.created_at as childWriterCreatedAt,
-            cm.updated_at as childWriterUpdatedAt
+        SELECT c.id,
+               c.article_id                     AS articleId,
+               c.body,
+               c.status,
+               c.created_at                     AS createdAt,
+               c.upvote_cnt                     AS upvoteCount,
+               c.parent_comment_id              AS parentId,
+               c.target_type                    AS targetType,
+               IFNULL(childCount.childCount, 0) AS childCount,
+               m.id                             AS writerId,
+               m.nickname,
+               m.profile_image_path             AS profileImagePath,
+               m.created_at                     AS memberCreatedAt,
+               m.updated_at                     AS memberUpdatedAt
+        FROM comments c
+                 LEFT JOIN members m ON m.id = c.writer_id
+                 LEFT JOIN (SELECT parent_comment_id, COUNT(*) AS childCount
+                            FROM comments
+                            WHERE parent_comment_id IS NOT NULL
+                            GROUP BY parent_comment_id) childCount ON childCount.parent_comment_id = c.id
+        WHERE c.id = #{commentId};
+    </select>
+
+    <select id="findMoreComments" resultMap="CommentDetailsMap">
+        SELECT  c.id,
+                c.article_id            AS articleId,
+                c.body,
+                c.status,
+                c.created_at            AS createdAt,
+                c.upvote_cnt            AS upvoteCount,
+                c.parent_comment_id     AS parentId,
+                c.target_type           AS targetType,
+                m.id                    AS writerId,
+                m.nickname,
+                m.profile_image_path    AS profileImagePath,
+                m.created_at            AS memberCreatedAt,
+                m.updated_at            AS memberUpdatedAt,
+        CASE
+            WHEN #{depth} = 1 THEN (
+                SELECT COUNT(*)
+                FROM comments child
+                WHERE child.parent_comment_id = c.id
+            )
+            ELSE 0
+            END AS childCount
         FROM
             comments c
-        LEFT JOIN members m ON c.writer_id = m.id
-        LEFT JOIN comments ch ON c.id = ch.parent_comment_id
-        LEFT JOIN members cm ON c.writer_id = cm.id
+        LEFT JOIN
+            members m ON c.writer_id = m.id
         WHERE
             c.article_id = #{articleId}
-            AND c.parent_comment_id IS NULL
-        <if test="cursor != null and cursor != -1">
-            AND c.id &lt; #{cursor}
+            AND (
+                (#{depth} = 1 AND c.parent_comment_id IS NULL)
+                OR (#{depth} = 2 AND c.parent_comment_id = #{parentId})
+            )
+        <if test="cursor != -1 and cursor != null">
+            AND c.id <![CDATA[<]]> #{cursor}
         </if>
-        ORDER BY c.created_at ASC
-        LIMIT #{size}
+        ORDER BY
+            c.id ASC
+        LIMIT
+            #{size};
     </select>
 
     <!-- 회원의 답글 목록 조회 -->
     <select id="findAnswerByMember" resultMap="ProfileCommentMap">
-        SELECT
-            c.id as id,
-            c.article_id as articleId,
-            a.title as articleTitle,
-            c.body as childBody,
-            c.created_at as createdAt,
-            c.updated_at as updatedAt
-        FROM
-            comments c
-        LEFT JOIN articles a ON a.id = c.article_id
-        WHERE
-            c.writer_id = #{memberId}
-            AND c.parent_comment_id IS NULL
+        SELECT c.id             AS id,
+               c.article_id     AS articleId,
+               a.title          AS articleTitle,
+               c.body           AS commentBody,
+               c.created_at     AS createdAt,
+               c.updated_at     AS updatedAt
+        FROM comments c
+                 LEFT JOIN articles a ON a.id = c.article_id
+        WHERE c.writer_id = #{memberId}
+          AND c.parent_comment_id IS NULL
         <if test="cursor != null and cursor != -1">
             AND c.id &lt; #{cursor}
         </if>
         ORDER BY c.id DESC
-        LIMIT #{size}
+        LIMIT #{size};
     </select>
 
     <resultMap id="CommentDetailsMap" type="CommentDetails">
         <id column="id" property="id"/>
         <result column="articleId" property="articleId"/>
+        <result column="parentId" property="parentId"/>
+        <result column="targetType" property="targetType"/>
         <result column="body" property="body"/>
         <result column="status" property="status"/>
         <result column="createdAt" property="createdAt"/>
         <result column="updatedAt" property="updatedAt"/>
-
+        <result column="upvoteCount" property="upvoteCount"/>
+        <result column="childCount" property="childCount"/>
         <association property="author" javaType="CommentAuthor">
             <id column="writerId" property="id"/>
             <result column="nickname" property="nickname"/>
@@ -77,24 +123,6 @@
             <result column="memberCreatedAt" property="createdAt"/>
             <result column="memberUpdatedAt" property="updatedAt"/>
         </association>
-
-        <collection property="children" ofType="CommentDetails">
-            <id column="childId" property="id"/>
-            <result column="parentId" property="parentId"/>
-            <result column="articleId" property="articleId"/>
-            <result column="childBody" property="body"/>
-            <result column="childStatus" property="status"/>
-            <result column="childCreatedAt" property="createdAt"/>
-            <result column="childUpdatedAt" property="updatedAt"/>
-
-            <association property="author" javaType="CommentAuthor">
-                <id column="childWriterId" property="id"/>
-                <result column="childWriterNickname" property="nickname"/>
-                <result column="childWriterProfileImagePath" property="profileImagePath"/>
-                <result column="childWriterCreatedAt" property="createdAt"/>
-                <result column="childWriterUpdatedAt" property="updatedAt"/>
-            </association>
-        </collection>
     </resultMap>
 
 
@@ -108,3 +136,42 @@
     </resultMap>
 
 </mapper>
+
+        <!--    레거시 v0-->
+        <!--    <select id="findCommentListByArticleIdLegacy" resultMap="CommentDetailsMap">-->
+        <!--        SELECT-->
+        <!--            c.id,-->
+        <!--            c.article_id as articleId,-->
+        <!--            c.body,-->
+        <!--            c.status,-->
+        <!--            c.created_at as createdAt,-->
+        <!--            c.upvote_cnt as upvoteCount,-->
+        <!--            m.id as writerId,-->
+        <!--            m.nickname,-->
+        <!--            m.created_at as memberCreatedAt,-->
+        <!--            m.updated_at as memberUpdatedAt,-->
+        <!--            ch.id as childId,-->
+        <!--            ch.parent_comment_id as parentId,-->
+        <!--            ch.body as childBody,-->
+        <!--            ch.created_at as childCreatedAt,-->
+        <!--            ch.updated_at as childUpdatedAt,-->
+        <!--            ch.status as childStatus,-->
+        <!--            cm.id as childWriterId,-->
+        <!--            cm.nickname as childWriterNickname,-->
+        <!--            cm.profile_image_path as childWriterProfileImagePath,-->
+        <!--            cm.created_at as childWriterCreatedAt,-->
+        <!--            cm.updated_at as childWriterUpdatedAt-->
+        <!--        FROM-->
+        <!--            comments c-->
+        <!--        LEFT JOIN members m ON c.writer_id = m.id-->
+        <!--        LEFT JOIN comments ch ON c.id = ch.parent_comment_id-->
+        <!--        LEFT JOIN members cm ON c.writer_id = cm.id-->
+        <!--        WHERE-->
+        <!--            c.article_id = #{articleId}-->
+        <!--            AND c.parent_comment_id IS NULL-->
+        <!--        <if test="cursor != null and cursor != -1">-->
+        <!--            AND c.id &lt; #{cursor}-->
+        <!--        </if>-->
+        <!--        ORDER BY c.created_at ASC-->
+        <!--        LIMIT #{size}-->
+        <!--    </select>-->

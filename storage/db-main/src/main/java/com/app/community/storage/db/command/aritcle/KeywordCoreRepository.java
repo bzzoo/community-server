@@ -1,8 +1,8 @@
 package com.app.community.storage.db.command.aritcle;
 
-import com.app.community.domain.agg.article.Keyword;
-import com.app.community.domain.agg.article.KeywordName;
-import com.app.community.domain.agg.article.KeywordRepository;
+import com.app.community.domain.model.article.Keyword;
+import com.app.community.domain.model.article.KeywordName;
+import com.app.community.domain.model.article.KeywordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

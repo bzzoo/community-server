@@ -1,6 +1,6 @@
 package com.app.community.storage.db.command.member;
 
-import com.app.community.domain.agg.point.*;
+import com.app.community.domain.model.point.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +12,8 @@ import lombok.*;
 @Entity
 public class PointHistoryEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long fromMemberId;
     private Long toMemberId;
@@ -39,7 +40,7 @@ public class PointHistoryEntity {
                 .build();
     }
 
-    public  PointHistory toDomain(){
+    public PointHistory toDomain() {
         PointAccount toAccount = new PointAccount(fromMemberId, fromMemberBalance);
         PointAccount fromAccount = new PointAccount(fromMemberId, fromMemberBalance);
         PointReference reference = new PointReference(referenceId, pointReferenceType);

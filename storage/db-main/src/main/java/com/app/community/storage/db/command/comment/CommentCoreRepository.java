@@ -1,8 +1,8 @@
 package com.app.community.storage.db.command.comment;
 
-import com.app.community.domain.agg.comment.Comment;
-import com.app.community.domain.agg.comment.CommentRepository;
-import com.app.community.domain.agg.comment.CommentStatus;
+import com.app.community.domain.model.comment.Comment;
+import com.app.community.domain.model.comment.CommentRepository;
+import com.app.community.domain.model.comment.CommentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

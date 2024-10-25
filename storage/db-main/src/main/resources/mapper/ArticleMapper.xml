@@ -5,83 +5,81 @@
 
     <!-- 게시글 리스트 조회 -->
     <select id="findArticleList" resultMap="ArticleSummaryMap">
-        SELECT
-            a.id,
-            a.title,
-            a.body,
-            a.type,
-            a.created_at AS articleCreatedAt,
-            a.updated_at AS articleUpdatedAt,
-            a.view_cnt AS viewCount,
-            a.comment_cnt AS commentCount,
-            a.upvote_cnt AS upvoteCount,
-            m.id AS writerId,
-            m.nickname,
-            m.profile_image_path AS profileImagePath,
-            m.created_at AS memberCreatedAt,
-            m.updated_at AS memberUpdatedAt,
-            k.id AS keywordId,
-            k.name AS keywordName
-        FROM
-            articles a
-        LEFT JOIN members m ON a.writer_id = m.id
-        LEFT JOIN article_keywords ak ON ak.article_id = a.id
-        LEFT JOIN keywords k ON ak.keyword_id = k.id
-        WHERE
-            a.status = 'STEADY'
-        <if test="cursor != -1 and cursor != null">
-            AND a.id <![CDATA[<]]> #{cursor}
-        </if>
-        <if test="type != null">
-            AND a.type = #{type}
-        </if>
+        SELECT a.id,
+               a.title,
+               a.body,
+               a.type,
+               a.created_at         AS articleCreatedAt,
+               a.updated_at         AS articleUpdatedAt,
+               a.view_cnt           AS viewCount,
+               a.comment_cnt        AS commentCount,
+               a.upvote_cnt         AS upvoteCount,
+               m.id                 AS writerId,
+               m.nickname,
+               m.profile_image_path AS profileImagePath,
+               m.created_at         AS memberCreatedAt,
+               m.updated_at         AS memberUpdatedAt,
+               k.id                 AS keywordId,
+               k.name               AS keywordName
+        FROM articles a
+                 LEFT JOIN members m ON a.writer_id = m.id
+                 LEFT JOIN article_keywords ak ON ak.article_id = a.id
+                 LEFT JOIN keywords k ON ak.keyword_id = k.id
+        WHERE a.status = 'STEADY'
+            <if test="cursor != -1 and cursor != null">
+                AND a.id <![CDATA[<]]> #{cursor}
+            </if>
+            <if test="type != null">
+                AND a.type = #{type}
+            </if>
+            <if test="authorId != null">
+                AND a.writer_id = #{authorId}
+            </if>
+            <if test="keyword != null">
+                AND k.name = #{keyword}
+            </if>
+
         ORDER BY a.id DESC
         LIMIT #{size}
     </select>
 
     <!-- 게시글 상세 조회 -->
     <select id="findArticleDetails" resultMap="ArticleDetailsMap">
-        SELECT
-            a.id,
-            a.title,
-            a.body,
-            a.type,
-            a.created_at AS articleCreatedAt,
-            a.updated_at AS articleUpdatedAt,
-            a.view_cnt AS viewCount,
-            a.comment_cnt AS commentCount,
-            a.upvote_cnt AS upvoteCount,
-            m.id AS writerId,
-            m.nickname,
-            m.profile_image_path AS profileImagePath,
-            m.created_at AS memberCreatedAt,
-            m.updated_at AS memberUpdatedAt,
-            k.id AS keywordId,
-            k.name AS keywordName
-        FROM
-            articles a
-        LEFT JOIN members m ON a.writer_id = m.id
-        LEFT JOIN article_keywords ak ON ak.article_id = a.id
-        LEFT JOIN keywords k ON ak.keyword_id = k.id
-        WHERE
-            a.id = #{articleId}
+        SELECT a.id,
+               a.title,
+               a.body,
+               a.type,
+               a.created_at         AS articleCreatedAt,
+               a.updated_at         AS articleUpdatedAt,
+               a.view_cnt           AS viewCount,
+               a.comment_cnt        AS commentCount,
+               a.upvote_cnt         AS upvoteCount,
+               m.id                 AS writerId,
+               m.nickname,
+               m.profile_image_path AS profileImagePath,
+               m.created_at         AS memberCreatedAt,
+               m.updated_at         AS memberUpdatedAt,
+               k.id                 AS keywordId,
+               k.name               AS keywordName
+        FROM articles a
+                 LEFT JOIN members m ON a.writer_id = m.id
+                 LEFT JOIN article_keywords ak ON ak.article_id = a.id
+                 LEFT JOIN keywords k ON ak.keyword_id = k.id
+        WHERE a.id = #{articleId}
           AND a.status = 'STEADY'
     </select>
 
     <!-- 회원별 게시글 리스트 조회 -->
     <select id="findArticleListByMemberId" resultMap="ArticleActivityMap">
-        SELECT
-            a.id,
-            a.title,
-            a.body,
-            a.type,
-            a.created_at AS createdAt,
-            a.updated_at AS updatedAt
-        FROM
-            articles a
-        WHERE
-            a.status = 'STEADY'
-        AND a.writer_id = #{memberId}
+        SELECT a.id,
+               a.title,
+               a.body,
+               a.type,
+               a.created_at AS createdAt,
+               a.updated_at AS updatedAt
+        FROM articles a
+        WHERE a.status = 'STEADY'
+          AND a.writer_id = #{memberId}
         <if test="cursor != -1">
             AND a.id <![CDATA[<]]> #{cursor}
         </if>
@@ -94,15 +92,12 @@
 
     <resultMap id="ArticleSummaryMap" type="ArticleSummary">
         <id column="id" property="id"/>
-
         <result column="type" property="type"/>
-
         <result column="articleCreatedAt" property="createdAt"/>
         <result column="articleUpdatedAt" property="updatedAt"/>
         <result column="viewCount" property="viewCount"/>
         <result column="commentCount" property="commentCount"/>
         <result column="upvoteCount" property="upvoteCount"/>
-
 
         <association property="contents" javaType="ArticleContentInfo">
             <result column="title" property="title"/>
@@ -117,12 +112,11 @@
             <result column="memberUpdatedAt" property="updatedAt"/>
         </association>
 
-        <collection property="keywords" ofType="ArticleKeywordInfo">
+        <collection property="keywords" ofType="ArticleKeywordInfo" notNullColumn="keywordId">
             <id column="keywordId" property="id"/>
             <result column="keywordName" property="name"/>
         </collection>
     </resultMap>
-
 
     <resultMap id="ArticleDetailsMap" type="ArticleDetails">
         <id column="id" property="id"/>
@@ -144,7 +138,7 @@
             <result column="memberCreatedAt" property="createdAt"/>
             <result column="memberUpdatedAt" property="updatedAt"/>
         </association>
-        <collection property="keywords" ofType="ArticleKeywordInfo">
+        <collection property="keywords" ofType="ArticleKeywordInfo" notNullColumn="keywordId" >
             <id column="keywordId" property="id"/>
             <result column="keywordName" property="name"/>
         </collection>
@@ -160,6 +154,4 @@
             <result column="body" property="body"/>
         </association>
     </resultMap>
-
-
 </mapper>

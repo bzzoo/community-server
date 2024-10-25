@@ -1,7 +1,7 @@
 package com.app.community.storage.db.query;
 
-import com.app.community.domain.agg.chat.ChatQuery.ChatSummary;
-import com.app.community.domain.agg.chat.ChatQuery.ChatMessageInfo;
+import com.app.community.domain.query.ChatQuery.ChatSummary;
+import com.app.community.domain.query.ChatQuery.ChatMessageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

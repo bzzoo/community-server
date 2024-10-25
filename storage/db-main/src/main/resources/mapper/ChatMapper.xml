@@ -47,9 +47,9 @@
         WHERE
             cm.chat_id = #{chatId}
             <if test="cursor != null and cursor != -1">
-                AND m.id &lt; #{cursor}
+                AND cm.id &lt; #{cursor}
             </if>
-        ORDER BY m.id DESC
+        ORDER BY cm.id DESC
         LIMIT #{size}
     </select>
 

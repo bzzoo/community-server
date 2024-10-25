@@ -1,8 +1,8 @@
 package com.app.community.storage.db.command.upvote;
 
-import com.app.community.domain.agg.upvote.Upvote;
-import com.app.community.domain.agg.upvote.UpvoteRepository;
-import com.app.community.domain.agg.upvote.UpvoteTarget;
+import com.app.community.domain.model.upvote.Upvote;
+import com.app.community.domain.model.upvote.UpvoteRepository;
+import com.app.community.domain.model.upvote.UpvoteTarget;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

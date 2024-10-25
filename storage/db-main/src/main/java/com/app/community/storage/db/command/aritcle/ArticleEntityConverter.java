@@ -1,8 +1,8 @@
 package com.app.community.storage.db.command.aritcle;
 
-import com.app.community.domain.agg.article.Article;
-import com.app.community.domain.agg.article.ArticleContent;
-import com.app.community.domain.agg.article.ArticleKeywordList;
+import com.app.community.domain.model.article.Article;
+import com.app.community.domain.model.article.ArticleContent;
+import com.app.community.domain.model.article.ArticleKeywordList;
 
 import java.util.List;
 import java.util.Set;

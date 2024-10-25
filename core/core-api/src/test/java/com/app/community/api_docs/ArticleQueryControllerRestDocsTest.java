@@ -1,9 +1,9 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.ArticleQueryController;
-import com.app.community.domain.agg.article.ArticleQuery;
-import com.app.community.domain.agg.article.ArticleReadService;
-import com.app.community.domain.agg.article.ArticleType;
+import com.app.community.api.controller.ArticleQueryController;
+import com.app.community.domain.query.ArticleQuery;
+import com.app.community.domain.query.ArticleQueryService;
+import com.app.community.domain.model.article.ArticleType;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,13 +28,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 
 public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
 
-    private ArticleReadService articleReadService;
+    private ArticleQueryService articleQueryService;
     private ArticleQueryController articleQueryController;
 
     @BeforeEach
     public void setUp() {
-        articleReadService = mock(ArticleReadService.class);
-        articleQueryController = new ArticleQueryController(articleReadService);
+        articleQueryService = mock(ArticleQueryService.class);
+        articleQueryController = new ArticleQueryController(articleQueryService);
         mockMvc = mockController(articleQueryController);
     }
 
@@ -42,7 +42,7 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
     void getArticleListTest() {
         List<ArticleQuery.ArticleSummary> dummyArticles = List.of(
                 createArticleSummary(1L, "Test Title", "Test Body", "SHARE", "Author1"));
-        when(articleReadService.getLatestArticleList(any(), any(), any())).thenReturn(dummyArticles);
+        when(articleQueryService.getLatestArticleList(any(), any(), any())).thenReturn(dummyArticles);
 
         given()
                 .contentType(ContentType.JSON)
@@ -86,7 +86,7 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
     void getArticleDetailsTest() {
         ArticleQuery.ArticleDetails dummyArticle =
                 createArticleDetails(1L, "Test Title", "Test Body", "SHARE", "Author1");
-        when(articleReadService.getArticleDetails(any(), any())).thenReturn(dummyArticle);
+        when(articleQueryService.getArticleDetails(any(), any())).thenReturn(dummyArticle);
 
         given().contentType(ContentType.JSON)
                 .when()
@@ -124,7 +124,7 @@ public class ArticleQueryControllerRestDocsTest extends RestDocsTest {
     void getArticleListByMemberTest() {
         List<ArticleQuery.ArticleActivity> dummyArticles = List.of(
                 createArticleActivity(1L, 1L, "Member Title", "Member Body", "SHARE"));
-        when(articleReadService.getArticleListByMemberId(anyInt(), any(), any(), any())).thenReturn(dummyArticles);
+        when(articleQueryService.getArticleListByMemberId(anyInt(), any(), any(), any())).thenReturn(dummyArticles);
 
         given().log().all()
                 .body(dummyArticles)

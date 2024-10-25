@@ -1,8 +1,8 @@
 package com.app.community.storage.db.command.member;
 
-import com.app.community.domain.agg.member.Member;
-import com.app.community.domain.agg.member.MemberRepository;
-import com.app.community.domain.agg.member.MemberSocial;
+import com.app.community.domain.model.member.Member;
+import com.app.community.domain.model.member.MemberRepository;
+import com.app.community.domain.model.member.MemberSocial;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

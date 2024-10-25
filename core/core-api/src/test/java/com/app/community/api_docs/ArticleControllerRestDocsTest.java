@@ -1,9 +1,8 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.ArticleController;
-import com.app.community.controller.request.ArticleRequests.*;
-import com.app.community.controller.request.ArticleRequests.NewArticleRequest;
-import com.app.community.domain.agg.article.ArticleService;
+import com.app.community.api.controller.ArticleController;
+import com.app.community.api.controller.request.ArticleRequests.NewArticleRequest;
+import com.app.community.domain.model.article.ArticleService;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;

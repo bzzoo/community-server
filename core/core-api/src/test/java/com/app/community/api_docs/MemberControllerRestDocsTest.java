@@ -1,8 +1,9 @@
 package com.app.community.api_docs;
 
-import com.app.community.controller.MemberController;
-import com.app.community.controller.request.MemberRequests.UpdateProfileRequest;
-import com.app.community.domain.agg.member.*;
+import com.app.community.api.controller.MemberController;
+import com.app.community.api.controller.request.MemberRequests.UpdateProfileRequest;
+import com.app.community.domain.model.member.MemberPosition;
+import com.app.community.domain.model.member.MemberService;
 import com.app.community.test.api.RestDocsTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;

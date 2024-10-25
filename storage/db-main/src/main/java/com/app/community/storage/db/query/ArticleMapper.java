@@ -1,11 +1,13 @@
 package com.app.community.storage.db.query;
 
-import com.app.community.domain.agg.article.ArticleQuery.*;
-import com.app.community.domain.agg.article.ArticleType;
+import com.app.community.domain.query.ArticleQuery.*;
+import com.app.community.domain.model.article.ArticleType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+
 
 @Mapper
 public interface ArticleMapper {

@@ -1,7 +1,7 @@
 package com.app.community.storage.db.command.aritcle;
 
-import com.app.community.domain.agg.article.Article;
-import com.app.community.domain.agg.article.ArticleRepository;
+import com.app.community.domain.model.article.Article;
+import com.app.community.domain.model.article.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,11 @@ public class ArticleCoreRepository implements ArticleRepository {
 
     private final ArticleJpaRepository articleJpaRepository;
     private final ArticleKeywordJpaRepository articleKeywordJpaRepository;
+
+    @Override
+    public Optional<Article> findOneById(Long articleId) {
+        return articleJpaRepository.findById(articleId).map(ArticleEntity::toDomain);
+    }
 
     @Override
     public Optional<Article> findById(Long articleId) {

@@ -8,23 +8,23 @@
     </settings>
     <typeAliases>
         <typeAlias alias="ArticleContentInfo"
-                   type="com.app.community.domain.agg.article.ArticleQuery$ArticleContentInfo"/>
-        <typeAlias alias="ArticleAuthor" type="com.app.community.domain.agg.article.ArticleQuery$ArticleAuthor"/>
+                   type="com.app.community.domain.query.ArticleQuery$ArticleContentInfo"/>
+        <typeAlias alias="ArticleAuthor" type="com.app.community.domain.query.ArticleQuery$ArticleAuthor"/>
         <typeAlias alias="ArticleKeywordInfo"
-                   type="com.app.community.domain.agg.article.ArticleQuery$ArticleKeywordInfo"/>
+                   type="com.app.community.domain.query.ArticleQuery$ArticleKeywordInfo"/>
 
-        <typeAlias alias="ArticleSummary" type="com.app.community.domain.agg.article.ArticleQuery$ArticleSummary"/>
-        <typeAlias alias="ArticleActivity" type="com.app.community.domain.agg.article.ArticleQuery$ArticleActivity"/>
-        <typeAlias alias="ArticleDetails" type="com.app.community.domain.agg.article.ArticleQuery$ArticleDetails"/>
+        <typeAlias alias="ArticleSummary" type="com.app.community.domain.query.ArticleQuery$ArticleSummary"/>
+        <typeAlias alias="ArticleActivity" type="com.app.community.domain.query.ArticleQuery$ArticleActivity"/>
+        <typeAlias alias="ArticleDetails" type="com.app.community.domain.query.ArticleQuery$ArticleDetails"/>
 
-        <typeAlias alias="ChatSummary" type="com.app.community.domain.agg.chat.ChatQuery$ChatSummary"/>
-        <typeAlias alias="ChatMessageInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatMessageInfo"/>
-        <typeAlias alias="Participant" type="com.app.community.domain.agg.chat.ChatQuery$Participant"/>
-        <typeAlias alias="ChatDateTimeInfo" type="com.app.community.domain.agg.chat.ChatQuery$ChatDateTimeInfo"/>
+        <typeAlias alias="ChatSummary" type="com.app.community.domain.query.ChatQuery$ChatSummary"/>
+        <typeAlias alias="ChatMessageInfo" type="com.app.community.domain.query.ChatQuery$ChatMessageInfo"/>
+        <typeAlias alias="Participant" type="com.app.community.domain.query.ChatQuery$Participant"/>
+        <typeAlias alias="ChatDateTimeInfo" type="com.app.community.domain.query.ChatQuery$ChatDateTimeInfo"/>
 
-        <typeAlias alias="CommentDetails" type="com.app.community.domain.agg.comment.CommentQuery$CommentDetails"/>
-        <typeAlias alias="ProfileComment" type="com.app.community.domain.agg.comment.CommentQuery$ProfileComment"/>
-        <typeAlias alias="CommentAuthor" type="com.app.community.domain.agg.comment.CommentQuery$CommentAuthor"/>
+        <typeAlias alias="CommentDetails" type="com.app.community.domain.query.CommentQuery$CommentDetails"/>
+        <typeAlias alias="ProfileComment" type="com.app.community.domain.query.CommentQuery$ProfileComment"/>
+        <typeAlias alias="CommentAuthor" type="com.app.community.domain.query.CommentQuery$CommentAuthor"/>
     </typeAliases>
 
 </configuration>
