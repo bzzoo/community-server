@@ -13,10 +13,10 @@ public class PointHistoryWriter {
             PointAccount fromAccount,
             PointAccount toAccount,
             PointReference reference,
-            PointEventType eventType,
+            PointEventType pointEventType,
             Integer amount
     ) {
-        PointHistory pointHistory = PointHistory.create(fromAccount, toAccount, reference, eventType, amount);
+        PointHistory pointHistory = PointHistory.create(fromAccount, toAccount, reference, pointEventType, amount);
         historyRepository.save(pointHistory);
     }
 }

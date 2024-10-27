@@ -44,4 +44,12 @@ public class CommentController {
         return ApiResponse.success();
     }
 
+    @PostMapping("/{commentId}/upvote")
+    ApiResponse<Void> upvote(
+            @AuthenticationPrincipal LoginMember member,
+            @PathVariable(name = "commentId") Long commentId
+    ) {
+        commentService.upvote(member.memberId(), commentId);
+        return ApiResponse.success();
+    }
 }

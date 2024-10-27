@@ -7,19 +7,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class ArticleSimpleCacheUpdater {
 
+    public static final int DEFAULT_ACCESS_COUNT = 1;
+
     private final ArticleRepository articleRepository;
 
     public void increaseViewCnt(Long articleId) {
-        articleRepository.updateViewCount(articleId, 1);
+        articleRepository.updateViewCount(articleId, DEFAULT_ACCESS_COUNT);
     }
 
     public void increaseCommentCnt(Long articleId) {
-        articleRepository.updateCommentCount(articleId, 1);
+        articleRepository.updateCommentCount(articleId, DEFAULT_ACCESS_COUNT);
     }
 
     public void increaseUpvoteCnt(Long articleId) {
-        articleRepository.updateViewCount(articleId, 1);
+        articleRepository.updateUpvoteCount(articleId, DEFAULT_ACCESS_COUNT);
     }
 
-    public void decreaseCommentCnt(Long articleId) {articleRepository.updateCommentCount(articleId, -1);}
+    public void decreaseCommentCnt(Long articleId) {
+        articleRepository.updateCommentCount(articleId, -DEFAULT_ACCESS_COUNT);
+    }
 }

@@ -15,4 +15,8 @@ public class ArticleReader {
         return articleRepository.findById(articleId)
                 .orElseThrow(() -> new DomainException(DomainErrorType.DEFAULT_ERROR));
     }
+
+    public Long getWriter(Long articleId){
+        return getById(articleId).getWriterId();
+    }
 }

@@ -24,4 +24,8 @@ public class CommentWriter {
         comment.withdrawal(member.memberId());
         commentRepository.save(comment);
     }
+
+    public void simpleCountUpdate(Long commentId) {
+        commentRepository.updateUpvoteCount(commentId, 1);
+    }
 }
