@@ -38,14 +38,14 @@ subprojects {
     bootJar.enabled = false
     jar.enabled = true
 
-//    test {
-//        useJUnitPlatform {
-//            include('restdocs')
-//        }
-//    }
-//
-//    test {
-//        useJUnitPlatform()
-//        exclude '**/CommunityApplicationTests.class'
-//    }
+    test {
+        useJUnitPlatform {
+            include('restdocs')
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        exclude '**/CommunityApplicationTests.class'
+    }
 }

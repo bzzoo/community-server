@@ -4,4 +4,5 @@ public record PointReference(
         Long referenceId,
         PointReferenceType pointReferenceType
 ) {
+
 }

@@ -13,5 +13,11 @@ public class CommentReader {
         return commentRepository.findById(commentId).orElseThrow();
     }
 
-    public boolean existsByArticleId(Long articleId){return commentRepository.existsByArticleId(articleId);}
+    public boolean existsByArticleId(Long articleId) {
+        return commentRepository.existsByArticleId(articleId);
+    }
+
+    public Long getWriterId(Long commentId) {
+        return getById(commentId).getWriterId();
+    }
 }

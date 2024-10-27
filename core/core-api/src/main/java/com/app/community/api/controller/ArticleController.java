@@ -1,9 +1,9 @@
 package com.app.community.api.controller;
 
 import com.app.community.api.controller.request.ArticleRequests;
+import com.app.community.api.support.response.ApiResponse;
 import com.app.community.domain.model.article.ArticleService;
 import com.app.community.domain.model.member.LoginMember;
-import com.app.community.api.support.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +40,15 @@ public class ArticleController {
             @PathVariable(name = "articleId") Long articleId
     ) {
         articleService.delete(member, articleId);
+        return ApiResponse.success();
+    }
+
+    @PostMapping("/{articleId}/upvote")
+    ApiResponse<Void> upvote(
+            @AuthenticationPrincipal LoginMember member,
+            @PathVariable(name = "articleId") Long articleId
+    ) {
+        articleService.upvote(member.memberId(), articleId);
         return ApiResponse.success();
     }
 }
